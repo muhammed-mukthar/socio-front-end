@@ -2,7 +2,7 @@ import React from 'react'
 
 function Register() {
   return (
-    <div className="min-h-screen py-40 bg-violet-500">
+    <div className="min-h-screen py-5 lg:py-20 bg-violet-500">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
           <div

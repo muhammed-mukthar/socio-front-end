@@ -7,7 +7,7 @@ function Login() {
       <img src="https://images.unsplash.com/photo-1591035897819-f4bdf739f446?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"  className='w-full h-full object-cover ' alt="" />
     </div>
 
-    <div className='bg-gray-100 flex flex-col justify-center bg-purple-800'>
+    <div className='bg-whit-500 flex flex-col justify-center '>
       <form   className='max-w-[400px] w-full mx-auto bg-white p-4'>
       {/* {error &&   <h1 className='text-red-600'>{error}</h1>} */}
         <h2 className='text-4xl font-bold text-center py-6'>Login</h2>
