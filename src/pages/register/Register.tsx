@@ -1,14 +1,14 @@
 import React from 'react'
-
+import {Link} from 'react-router-dom'
 function Register() {
   return (
-    <div className="min-h-screen py-5 lg:py-20 bg-violet-500">
+    <div className="min-h-screen py-20 lg:py-40 bg-violet-500">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
           <div
             className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
             style={{
-              backgroundImage: `url(https://images.unsplash.com/photo-1591035897819-f4bdf739f446?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80)`,
+              backgroundImage: `url(https://images.pexels.com/photos/5638835/pexels-photo-5638835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)`,
               backgroundSize: "cover",
             }}
           >
@@ -16,7 +16,7 @@ function Register() {
             <div>
               <h5 className="text-white">
                 Already have an Account
-               
+                <p className='text-white font-bold cursor-pointer hover:text-blue-500' ><Link to='/login'>Sign In</Link> </p>
               </h5>
             </div>
           </div>
@@ -65,7 +65,7 @@ function Register() {
                 />
               </div>
               <div className="mt-5">
-                <button className="w-full bg-purple-500 py-3 text-center text-white">
+                <button className="w-full hover:bg-purple-800 bg-purple-500 py-3 text-center text-white">
                   Register
                 </button>
               </div>
