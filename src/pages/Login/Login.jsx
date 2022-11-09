@@ -18,7 +18,7 @@ function Login() {
               Don't have an Account
             
             </h5>
-            <p className='text-white font-bold cursor-pointer hover:text-blue-500' > <Link to="/register">Sign up</Link> </p>
+            <p className='text-white font-bold cursor-pointer hover:text-blue-500' ><Link to="/register">Sign up</Link></p>
           </div>
         </div>
         <div className="w:full lg:w-1/2 px-12  py-16">
@@ -58,8 +58,7 @@ function Login() {
       </div>
     </div>
   </div>
-  );
-  
+  )
 }
 
 export default Login
