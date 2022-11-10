@@ -6,7 +6,6 @@ import "./register.scss";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
- 
     email: "",
     password: "",
     name: "",
