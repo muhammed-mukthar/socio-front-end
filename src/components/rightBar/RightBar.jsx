@@ -1,6 +1,6 @@
-import React from 'react'
-import './rightbar.scss'
-function RightBar() {
+import "./rightBar.scss";
+
+const RightBar = () => {
   return (
     <div className="rightBar">
       <div className="container">
@@ -200,6 +200,6 @@ function RightBar() {
       </div>
     </div>
   );
-}
+};
 
-export default RightBar
+export default RightBar;
