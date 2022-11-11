@@ -37,22 +37,93 @@
           font-size: 12px;
         }
 
-        .user {
+        // .user {
+        //   display: flex;
+        //   align-items: center;
+        //   gap: 10px;
+
+        //   img {
+        //     width: 30px;
+        //     height: 30px;
+        //     border-radius: 50%;
+        //     object-fit: cover;
+        //   }
+
+        //   span {
+        //     font-size: 14px;
+        //   }
+        // }
+        .user{
           display: flex;
           align-items: center;
+          flex-direction: column;
           gap: 10px;
+          img{
+              width: 20rem;
+              height: 10rem;
+              border-radius: 50%;
+              object-fit: contain;
+          }
+          h1{
+              font-weight: 900;
+              font-size: 20px;
+              color: themed("textColor");
+          }
+      }
+      .about{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
 
-          img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
+          .posts{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              span{
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: themed("textColor");
+              }
+              h1{
+                  font-weight: 900;
+                  font-size: 20px;
+                  color: themed("textColor");
+              }
+          }
+          
+          .followers{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              span{
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: themed("textColor");
+              }
+              h1{
+                  font-weight: 900;
+                  font-size: 20px;
+                  color: themed("textColor");
+              }
+          }
+          .followings{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              span{
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: themed("textColor");
+              }
+              h1{
+                  font-weight: 900;
+                  font-size: 20px;
+                  color: themed("textColor");
+              }
           }
 
-          span {
-            font-size: 14px;
-          }
-        }
+      }
 
         .item {
           display: flex;
@@ -71,3 +142,5 @@
     }
   }
 }
+
+

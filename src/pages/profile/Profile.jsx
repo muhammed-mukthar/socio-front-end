@@ -14,7 +14,7 @@ import { makeRequest } from "../../axios/axios";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
-// import Update from "../../components/update/Update";
+import Update from "../../components/update/Update";
 import { useState } from "react";
 
 const Profile = () => {
@@ -26,7 +26,7 @@ const Profile = () => {
     makeRequest.get("users/" + userId).then((res) => {
       return res.data;
     })
-  );
+  )
 
   // const { isLoading: rIsLoading, data: relationshipData } = useQuery(
   //   ["relationship"],
@@ -97,7 +97,7 @@ console.log(data,'data here');
               </div>
               <div className="center">
                 <span>{data.name}</span>
-                {userId === currentUser._id ?<button onClick={() => setOpenUpdate(true)}>update</button>
+                {userId === currentUser.id ?<button onClick={() => setOpenUpdate(true)}>update</button>
                 :
                 <button onClick={handleFollow}>
                   {data.followers.includes(currentUser._id)?'following':'follow'}
@@ -124,7 +124,7 @@ console.log(data,'data here');
           </div>
         </>
       )}
-      {/* {openUpdate && (console.log(openUpdate,"opened"),<Update setOpenUpdate={setOpenUpdate} user={data} />)} */}
+      {openUpdate && (console.log(openUpdate,"opened"),<Update setOpenUpdate={setOpenUpdate} user={data} />)}
     </div>
   );
 };

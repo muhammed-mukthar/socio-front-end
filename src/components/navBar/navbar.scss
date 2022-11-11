@@ -65,9 +65,9 @@
         gap: 10px;
         font-weight: 500;
 
-        @include tablet{
-          display: none;
-        }
+        // @include tablet{
+        //   display: none;
+        // }
 
         img {
           width: 30px;

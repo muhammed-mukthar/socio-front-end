@@ -12,6 +12,14 @@ import Messages from "../../assets/10.png";
 import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
+import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import MovieCreationIcon from '@mui/icons-material/MovieCreation';
+import { Link } from 'react-router-dom';
+
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 
@@ -23,37 +31,75 @@ console.log(currentUser,'currentUser');
     <div className="leftBar">
       <div className="container">
         <div className="menu">
-          <div className="user">
-            <img
+        
+            {/* <img
               src={currentUser.profilePic}
               alt=""
             />
-            <span>{currentUser.name}</span>
+
+            <span>{currentUser.name}</span> */}
+             <div className='leftTopBar '>
+      <div className='hallo'>
+
+            <div className="user">
+            <img src={currentUser.profilePic} alt="" /> 
+            <h1>{currentUser.name}</h1>
+        </div>
+        <div className="about">
+        <div className='followers' >
+            <span>Followers</span>
+            <h1>100</h1>
           </div>
-          <div className="item">
-            <img src={Friends} alt="" />
-            <span>Notification</span>
+          <div className='followers' >
+            <span>Posts</span>
+            <h1>100</h1>
           </div>
-          <div className="item">
-            <img src={Groups} alt="" />
-            <span>Chat</span>
+          <div className='followings'>
+            <span>Followings</span>
+            <h1>100</h1>
           </div>
-          <div className="item">
-            <img src={Market} alt="" />
-            <span>followers</span>
+        
           </div>
-          <div className="item">
-            <img src={Watch} alt="" />
-            <span>Watch</span>
           </div>
-          <div className="item">
-            <img src={Memories} alt="" />
-            <span>Memories</span>
           </div>
+          <div className="items">
+                <PermIdentityOutlinedIcon className='icon'/>
+                <span>Profile</span>
+            </div>
+            <div className='items'>
+                <ChatBubbleOutlineOutlinedIcon className='icon'/>
+                <span>Chats</span>
+            </div>
+            <div className='items'>
+             
+                <NewspaperOutlinedIcon className='icon'/>
+              
+                <span>News</span>
+               
+            </div>
+            <div className='items'>
+             
+                <MovieCreationIcon className='icon'/>
+           
+                <span>Movies</span>
+           
+            </div>
+            <div className='items'>
+           
+                <LibraryMusicOutlinedIcon className='icon'/>
+             
+                <span>Music</span>
+             
+            </div>
+            <div className='items'>
+                <LogoutOutlinedIcon className='icon'/>
+                <span>Logout</span>
+            </div>
+         
         </div>
         <hr />
       
-      
+       
       </div>
     </div>
   );

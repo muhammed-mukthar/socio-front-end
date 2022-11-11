@@ -6,13 +6,21 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
+import { makeRequest } from "../../axios/axios";
 import { ModeComment } from "@mui/icons-material";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  const [user, setUser] = useState({})
+  useEffect(() => {
+    makeRequest.get(`users/${post.userId}`).then((res)=>{
+      setUser(res.data)
+    }).catch((err)=>{console.log(err);})
 
+  }, [post])
+  console.log(user);
   //TEMPORARY
   const liked = false;
 
@@ -22,13 +30,13 @@ const Post = ({ post }) => {
         <div className="user">
           <div className="userInfo">
             
-            <img src={post.profilePic} alt="" />
+            <img src={user.profilePic} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">{post.name}?{post.name}:SAMPLE</span>
+                <span className="name">{user.name}</span>
               </Link>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
