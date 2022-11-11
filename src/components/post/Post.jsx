@@ -17,17 +17,18 @@ const Post = ({ post }) => {
   const liked = false;
 
   return (
-    <div className="post">
+    <div key={post._id} className="post">
       <div className="container">
         <div className="user">
           <div className="userInfo">
+            
             <img src={post.profilePic} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">{post.name}</span>
+                <span className="name">{post.name}?{post.name}:SAMPLE</span>
               </Link>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
