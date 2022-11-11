@@ -68,11 +68,11 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      element:currentUser?<Navigate to="/" />:<Login />,
     },
     {
       path: "/register",
-      element: <Register />,
+      element: currentUser?<Navigate to="/" />:<Register />,
     },
   ]);
 

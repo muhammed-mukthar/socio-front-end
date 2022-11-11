@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
-import {  makeRequestWithoutHeaders } from "../axios/axios";
+import {  makeRequest} from "../axios/axios";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -9,13 +9,16 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login =async (inputs) => {
-    console.log('inputs here',inputs);
-   const res=await makeRequestWithoutHeaders.post(`auth/login`,inputs)
+   
+   const res=await makeRequest.post(`auth/login`,inputs)
    console.log(res.data);
-   await setCurrentUser(res.data)
+   await  setCurrentUser(res.data)
   };
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
+    
+       localStorage.setItem("user", JSON.stringify(currentUser));
+    
+   
   }, [currentUser]);
 
   return (

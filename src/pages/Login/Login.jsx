@@ -8,7 +8,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [error, setErr] = useState(null);
+  const [error, setErr] = useState(false);
   console.log(inputs);
 
   const navigate = useNavigate()
@@ -21,8 +21,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(inputs);
+    await  login(inputs)
       navigate("/")
+      console.log('i am her=');
     } catch (err) {
       // setErr(err.response.data);
       console.log(err);

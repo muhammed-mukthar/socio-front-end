@@ -33,10 +33,10 @@ const Share = () => {
         <div className="top">
           <div className="left">
           <img
-            src={currentUser.profilePicture}
+            src={currentUser.profilePic}
             alt=""
           />
-          <input type="text" placeholder={`What's on your mind ${currentUser.username}?`} onChange={e=>setDesc(e.target.value)}/>
+          <input type="text" placeholder={`What's on your mind ${currentUser.name}?`} onChange={e=>setDesc(e.target.value)}/>
         </div>
         <div className="right">
         {file && (

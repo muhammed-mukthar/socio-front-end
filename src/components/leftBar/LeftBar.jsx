@@ -19,11 +19,37 @@ import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 
 const LeftBar = () => {
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Do you want to logout?',
+     
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+    
+      customClass: {
+        actions: 'my-actions',
+        cancelButton: 'order-1 right-gap',
+        confirmButton: 'order-2',
+       
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("user");
+    
+        window.location.replace('/login');
+      } else if (result.isDenied) {
+        
+      }
+    })
+    
+  
+  };
 
   const { currentUser } = useContext(AuthContext);
 console.log(currentUser,'currentUser');
@@ -91,7 +117,7 @@ console.log(currentUser,'currentUser');
                 <span>Music</span>
              
             </div>
-            <div className='items'>
+            <div className="item" onClick={()=>{handleLogout()}}>
                 <LogoutOutlinedIcon className='icon'/>
                 <span>Logout</span>
             </div>
