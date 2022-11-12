@@ -19,6 +19,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import PagesTail from "./pages/pagestail/PagesTail";
 function App() {
   const {currentUser} =useContext(AuthContext)
 
@@ -99,6 +100,10 @@ function App() {
     {
       path: "/register",
       element: currentUser?<Navigate to="/" />:<Register />,
+    },
+    {
+      path: "/sample",
+      element: < PagesTail/>,
     }
   ]);
 

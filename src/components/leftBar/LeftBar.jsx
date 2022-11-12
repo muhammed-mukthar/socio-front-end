@@ -7,13 +7,16 @@ import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MovieCreationIcon from '@mui/icons-material/MovieCreation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 
 const LeftBar = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate()
   const handleLogout = () => {
     Swal.fire({
       title: 'Do you want to logout?',
@@ -40,7 +43,7 @@ const LeftBar = () => {
   
   };
 
-  const { currentUser } = useContext(AuthContext);
+ 
 console.log(currentUser,'currentUser');
   return (
     <div className="leftBar">
@@ -94,13 +97,7 @@ console.log(currentUser,'currentUser');
                 <span>News</span>
                </Link>
             </div>
-            <div className='items'>
-             
-                <MovieCreationIcon className='icon'/>
            
-                <span>Movies</span>
-           
-            </div>
          
             <div className='items'>
             <Link to='/notification' style={{textDecoration:"none",color: "inherit"}} >

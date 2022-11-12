@@ -22,7 +22,7 @@ const Post = ({ post }) => {
   }, [post])
   console.log(user);
   //TEMPORARY
-  const liked = false;
+  const liked = true;
 
   return (
     <div key={post._id} className="post">

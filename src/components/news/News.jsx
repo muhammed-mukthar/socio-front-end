@@ -32,6 +32,19 @@ function News() {
     const [item, setItem] = useState({})
     const [error, setError] = useState('')
     console.log(item.content)
+    
+     // const queryClient = useQueryClient();
+  // const mutation = useMutation(
+  //   (newPost) => {
+  //     return makeRequest.post("posts", newPost);
+  //   },
+  //   {
+  //     onSuccess: () => {
+  //       // Invalidate and refetch
+  //       queryClient.invalidateQueries(["posts"]);
+  //     },
+  //   }
+  // );
     useEffect(() => {
         Axios.get(`https://newsapi.org/v2/top-headlines?country=${country}&apiKey=f17aff16c6524c5eb33e7d156dde18a0`).then(({ data }) => {
             setArticles(data.articles)
@@ -40,12 +53,9 @@ function News() {
         }).catch((error) => {
             setError(error.message)
         })
-    }, [country])
+    }, [])
 
-    const handleRead = (selected) => {
-        setItem(selected)
-        setModal(true)
-    }
+  
     return (
         <div className= 'news  '>
           
