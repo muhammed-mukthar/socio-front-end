@@ -5,10 +5,11 @@ import Friend from "../../assets/friend.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { makeRequest } from "../../axios/axios";
 import axios from 'axios'
 const Share = () => {
-
+  const queryClient = useQueryClient();
   const [file, setFile] = useState(null)
   const [img,setImg]=useState(null)
   const [key,setKey]=useState(null)
@@ -45,7 +46,7 @@ formData.append("image", file);
       "authorization": "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
       "x-refresh":JSON.parse(localStorage.getItem("user")).refreshToken
     }
-}).then((result)=>{
+}).then(async(result)=>{
   console.log(result.data,'file upload is here guys');
   console.log(result.data.location,result.data.key,'the resultn are here sgfjgfjj');
   const location=result.data.location
@@ -55,7 +56,8 @@ formData.append("image", file);
     img:location,
     key:keydata
   }
-  makeRequest.post('posts',postDetails)
+ await makeRequest.post('posts',postDetails)
+ queryClient.invalidateQueries(["posts"]);
   console.log('request send');
 })
 console.log(response,'response here machi');
