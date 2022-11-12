@@ -78,7 +78,7 @@ console.log(currentUser,'currentUser');
           </div>
           </div>
           <div className="items">
-          <Link  to={`/profile/${currentUser.id}`} style={{textDecoration:"none",color:"black"}} >
+          <Link  to={`/profile/${currentUser.id}`} style={{textDecoration:"none",color: "inherit"}} >
                 <PermIdentityOutlinedIcon className='icon'/>
                 <span>Profile</span>
                 </Link>
@@ -88,11 +88,11 @@ console.log(currentUser,'currentUser');
                 <span>Chats</span>
             </div>
             <div className='items'>
-             
+            <Link to='/news' style={{textDecoration:"none",color: "inherit"}} >
                 <NewspaperOutlinedIcon className='icon'/>
               
                 <span>News</span>
-               
+               </Link>
             </div>
             <div className='items'>
              
@@ -103,7 +103,7 @@ console.log(currentUser,'currentUser');
             </div>
          
             <div className='items'>
-            <Link to='/notification' style={{textDecoration:"none",color:"black"}} >
+            <Link to='/notification' style={{textDecoration:"none",color: "inherit"}} >
                 <NotificationsOutlinedIcon className='icon'/>
              
                 <span>Notification</span>

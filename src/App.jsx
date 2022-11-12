@@ -13,6 +13,7 @@ import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
 import Notification from './pages/notification/Notification'
+import NewsPage from './pages/NewsPage/NewsPage'
 import "./style.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -34,6 +35,23 @@ function App() {
             <Outlet/>
           </div>
           <RightBar/>
+        </div>
+      </div>
+      </QueryClientProvider>
+    );
+  };
+
+  const withoutRightBar = () => {
+    return (
+      <QueryClientProvider client={queryClient}>
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
+        <Navbar/>
+        <div style={{ display: "flex" }}>
+          <LeftBar/>
+          <div style={{ flex: 9 }}>
+            <Outlet/>
+          </div>
+          
         </div>
       </div>
       </QueryClientProvider>
@@ -68,7 +86,10 @@ function App() {
         {
           path: "/notification",
           element: <Notification/> ,
-        },
+        },, {
+          path: "/news",
+          element: <NewsPage/>,
+        }
       ],
     },
     {
@@ -78,7 +99,7 @@ function App() {
     {
       path: "/register",
       element: currentUser?<Navigate to="/" />:<Register />,
-    },
+    }
   ]);
 
   return (

@@ -1,0 +1,100 @@
+@import "../../style.scss";
+
+ .news {
+  @include themify($themes) {
+    // -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    // -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    // box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    border-radius: 20px;
+    background-color: themed("bg");
+    color: themed("textColor");
+    display: flex;
+margin: 0.75rem; 
+flex-direction: column; 
+justify-content: space-around; 
+    .container {
+        // flex flex-wrap justify-center gap-10 mt-5
+      display: flex ;
+      display: flex; 
+      margin-top: 1.25rem; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      gap: 2.5rem; 
+ 
+
+      .article {
+        // max-w-sm max-h-sm bg-white rounded-lg border border-gray-200 shadow-md 
+        background-color: themed("bg"); 
+        max-width: 24rem; 
+        border-radius: 0.5rem; 
+        // border-width: 1px; 
+        border-color: themed("bg"); 
+      
+        
+
+        
+          img {
+//             border-top-left-radius: 0.5rem;
+// border-top-right-radius: 0.5rem; 
+
+  object-fit: cover;
+
+
+            width: 100%;
+            height: min-content;
+            // border-radius: 50%;
+            // object-fit: cover;
+          }
+          h5{
+            margin-bottom: 0.5rem; 
+color: #111827; 
+font-size: 1.5rem;
+line-height: 2rem; 
+font-weight: 700; 
+letter-spacing: -0.025em; 
+
+        }
+
+          .details {
+            display: flex;
+            flex-direction: column;
+
+            .name {
+              font-weight: 500;
+            }
+
+            .date {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .content {
+        margin: 20px 0px;
+
+        img {
+          width: 100%;
+          max-height: 500px;
+          object-fit: cover;
+          margin-top: 20px;
+        }
+      
+      }
+
+      .info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          font-size: 14px;
+        }
+      }
+    }
+  
+}
