@@ -12,6 +12,7 @@ import LeftBar from "./components/leftBar/LeftBar";
 import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
+import Notification from './pages/notification/Notification'
 import "./style.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -26,13 +27,13 @@ function App() {
     return (
       <QueryClientProvider client={queryClient}>
       <div className={`theme-${darkMode ? "dark" : "light"}`}>
-        <Navbar />
+        <Navbar/>
         <div style={{ display: "flex" }}>
-          <LeftBar />
+          <LeftBar/>
           <div style={{ flex: 6 }}>
-            <Outlet />
+            <Outlet/>
           </div>
-          <RightBar />
+          <RightBar/>
         </div>
       </div>
       </QueryClientProvider>
@@ -63,6 +64,10 @@ function App() {
         {
           path: "/profile/:id",
           element: <Profile />,
+        },
+        {
+          path: "/notification",
+          element: <Notification/> ,
         },
       ],
     },

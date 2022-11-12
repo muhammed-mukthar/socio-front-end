@@ -11,8 +11,7 @@ import axios from 'axios'
 const Share = () => {
   const queryClient = useQueryClient();
   const [file, setFile] = useState(null)
-  const [img,setImg]=useState(null)
-  const [key,setKey]=useState(null)
+
 
   const [desc, setDesc] = useState("")
   const {currentUser} = useContext(AuthContext)

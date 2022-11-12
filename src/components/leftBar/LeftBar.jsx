@@ -4,6 +4,7 @@ import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
 import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined';
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 import { Link } from 'react-router-dom';
@@ -77,8 +78,10 @@ console.log(currentUser,'currentUser');
           </div>
           </div>
           <div className="items">
+          <Link  to={`/profile/${currentUser.id}`} style={{textDecoration:"none",color:"black"}} >
                 <PermIdentityOutlinedIcon className='icon'/>
                 <span>Profile</span>
+                </Link>
             </div>
             <div className='items'>
                 <ChatBubbleOutlineOutlinedIcon className='icon'/>
@@ -98,13 +101,15 @@ console.log(currentUser,'currentUser');
                 <span>Movies</span>
            
             </div>
+         
             <div className='items'>
-           
-                <LibraryMusicOutlinedIcon className='icon'/>
+            <Link to='/notification' style={{textDecoration:"none",color:"black"}} >
+                <NotificationsOutlinedIcon className='icon'/>
              
-                <span>Music</span>
-             
+                <span>Notification</span>
+                </Link>
             </div>
+          
             <div className="item" onClick={()=>{handleLogout()}}>
                 <LogoutOutlinedIcon className='icon'/>
                 <span>Logout</span>

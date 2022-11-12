@@ -38,7 +38,13 @@ const Navbar = () => {
      
         {/* <PersonOutlinedIcon /> */}
         {/* <EmailOutlinedIcon /> */}
-        <NotificationsOutlinedIcon />
+        <Link
+                to='/notification'
+                style={{ textDecoration: "none", color: "inherit" }}
+              >  
+              <NotificationsOutlinedIcon />
+                </Link>
+      
         <Link
                 to={`/profile/${currentUser.id}`}
                 style={{ textDecoration: "none", color: "inherit" }}

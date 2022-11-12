@@ -71,19 +71,19 @@ const [error, setError] = useState(false);
 
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    (user) => {
-      return makeRequest.put("/users/", user);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
+  // const mutation = useMutation(
+  //   (user) => {
+  //     return makeRequest.put("/users/", user);
+  //   },
+  //   {
+  //     onSuccess: () => {
+  //       // Invalidate and refetch
 
-        queryClient.invalidateQueries(["user"]);
-        setOpenUpdate(false);
-      },
-    }
-  );
+  //       queryClient.invalidateQueries(["user"]);
+  //       setOpenUpdate(false);
+  //     },
+  //   }
+  // );
 
 //   const handleClick = async (e) => {
 //     e.preventDefault();
