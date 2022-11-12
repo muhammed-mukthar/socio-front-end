@@ -1,17 +1,5 @@
 import "./leftBar.scss";
-import Friends from "../../assets/1.png";
-import Groups from "../../assets/2.png";
-import Market from "../../assets/3.png";
-import Watch from "../../assets/4.png";
-import Memories from "../../assets/5.png";
-import Events from "../../assets/6.png";
-import Gaming from "../../assets/7.png";
-import Gallery from "../../assets/8.png";
-import Videos from "../../assets/9.png";
-import Messages from "../../assets/10.png";
-import Tutorials from "../../assets/11.png";
-import Courses from "../../assets/12.png";
-import Fund from "../../assets/13.png";
+
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
@@ -74,7 +62,7 @@ console.log(currentUser,'currentUser');
         <div className="about">
         <div className='followers' >
             <span>Followers</span>
-            <h1>100</h1>
+            <h1>{currentUser.followers.length}</h1>
           </div>
           <div className='followers' >
             <span>Posts</span>
@@ -82,7 +70,7 @@ console.log(currentUser,'currentUser');
           </div>
           <div className='followings'>
             <span>Followings</span>
-            <h1>100</h1>
+            <h1>{currentUser.following.length}</h1>
           </div>
         
           </div>

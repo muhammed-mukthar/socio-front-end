@@ -8,7 +8,7 @@ const header=await JSON.parse(localStorage.getItem("user"))?{
   }:{
     "authorization": "Bearer "
   }
-export const makeRequest = axios.create({
+export const makeRequest =  axios.create({
     baseURL:"http://localhost:5000/api/",
 headers:header
 })

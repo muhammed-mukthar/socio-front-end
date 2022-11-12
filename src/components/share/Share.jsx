@@ -6,27 +6,63 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios/axios";
+import axios from 'axios'
 const Share = () => {
 
   const [file, setFile] = useState(null)
+  const [img,setImg]=useState(null)
+  const [key,setKey]=useState(null)
+
   const [desc, setDesc] = useState("")
   const {currentUser} = useContext(AuthContext)
-  const queryClient = useQueryClient();
-  const mutation = useMutation(
-    (newPost) => {
-      return makeRequest.post("posts", newPost);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["posts"]);
-      },
+
+  
+  // const queryClient = useQueryClient();
+  // const mutation = useMutation(
+  //   (newPost) => {
+  //     return makeRequest.post("posts", newPost);
+  //   },
+  //   {
+  //     onSuccess: () => {
+  //       // Invalidate and refetch
+  //       queryClient.invalidateQueries(["posts"]);
+  //     },
+  //   }
+  // );
+  // const handleClick = (e)=>{
+  //  e.preventDefault()
+  //  mutation.mutate({desc})
+  // }
+
+  const handleClick=async(e)=>{
+    e.preventDefault()
+    var formData = new FormData();
+// var imagefile = document.querySelector('#file');
+formData.append("image", file);
+ axios.post('http://localhost:5000/api/uploads/images', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      "authorization": "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      "x-refresh":JSON.parse(localStorage.getItem("user")).refreshToken
     }
-  );
-  const handleClick = (e)=>{
-   e.preventDefault()
-   mutation.mutate({desc})
+}).then((result)=>{
+  console.log(result.data,'file upload is here guys');
+  console.log(result.data.location,result.data.key,'the resultn are here sgfjgfjj');
+  const location=result.data.location
+  const keydata=result.data.key
+  const postDetails={
+    desc:desc,
+    img:location,
+    key:keydata
   }
+  makeRequest.post('posts',postDetails)
+  console.log('request send');
+})
+console.log(response,'response here machi');
+  }
+
+
+  
   return (
     <div className="share">
       <div className="container">
@@ -40,7 +76,7 @@ const Share = () => {
         </div>
         <div className="right">
         {file && (
-              <img className="file" alt="" src={URL.createObjectURL(file)} />
+              <img className="file"  alt="" src={URL.createObjectURL(file)} />
             )}
         </div>
         </div>

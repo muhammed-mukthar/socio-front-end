@@ -79,6 +79,7 @@ console.log(data,'data here');
                     <span>{data.email}</span>
                   </div>
                 </div>
+                
                 {/* <a href="http://facebook.com">
                   <FacebookTwoToneIcon fontSize="large" />
                 </a>
@@ -103,17 +104,7 @@ console.log(data,'data here');
                   {data.followers.includes(currentUser._id)?'following':'follow'}
                   </button>
                 }
-                {/* {rIsLoading ? (
-                  "loading"
-                ) : userId === currentUser.id ? (
-                  <button onClick={() => setOpenUpdate(true)}>update</button>
-                ) : (
-                  <button onClick={handleFollow}>
-                    {relationshipData.includes(currentUser.id)
-                      ? "Following"
-                      : "Follow"}
-                  </button>
-                )} */}
+              
               </div>
               <div className="right">
                 <EmailOutlinedIcon />
