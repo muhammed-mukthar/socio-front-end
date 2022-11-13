@@ -77,7 +77,7 @@ const Post = ({ post }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments  />}
       </div>
     </div>
   );
