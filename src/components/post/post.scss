@@ -34,6 +34,23 @@
 
             .name {
               font-weight: 500;
+             
+              
+            }
+            .follow{
+              button{
+                background-color: transparent;
+                border: none;
+                color: blue;
+                cursor: pointer;
+              }
+              .follow:hover{
+                button{
+                     font-weight: bold;
+                }
+             
+              }
+              
             }
 
             .date {

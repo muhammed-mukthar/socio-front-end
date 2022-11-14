@@ -11,12 +11,13 @@ const Comments = ({ post ,user}) => {
   const comments =post.comments
 const newComment={
   comments:comment,
-  profile:user.profilePic,
-  name:user.name
+  profile:currentUser.profilePic,
+  name:currentUser.name
 }
 
  async function postComment(postid){
   await  makeRequest.put(`/posts/${postid}/comment`,newComment)
+  Setcomment('')
     queryClient.invalidateQueries(["posts"]);
   }
 
@@ -25,7 +26,7 @@ const newComment={
       <div className="write">
      
         <img src={currentUser.profilePic} alt="" />
-        <input type="text" onChange={(e)=>{Setcomment(e.target.value)}} placeholder="write a comment" />
+        <input type="text" value={comment} onChange={(e)=>{Setcomment(e.target.value)}} placeholder="write a comment" />
         <button  onClick={() => postComment(post._id)} >Send</button>
        
       </div>

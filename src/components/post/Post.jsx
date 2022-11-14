@@ -20,12 +20,7 @@ const Post = ({ post }) => {
 
   const [commentOpen, setCommentOpen] = useState(false);
   const [user, setUser] = useState({})
-//   const { isLoading, error, data } = useQuery(["posts"], () =>
-//   makeRequest.get(userId ?  `posts/profile/${userId}` : "posts/timeline/all").then((res) => {
-//     console.log(res,'response');
-//     return res.data;
-//   })
-// );
+
   useEffect(() => {
     makeRequest.get(`users/${post.userId}`).then((res)=>{
       setUser(res.data)
@@ -34,26 +29,43 @@ const Post = ({ post }) => {
   }, [post])
 
   //TEMPORARY
-  
+  async function unfollow(){
+    await makeRequest.put(`users/${post.userId}/unfollow`);
+    queryClient.invalidateQueries(["user"]);
+  }
+  async  function follow(){
+    await makeRequest.put(`users/${post.userId}/follow`);
+    queryClient.invalidateQueries(["user"]);
+  }
  async function handlelike(id){
    await makeRequest.put(`/posts/${id}/like`)
    queryClient.invalidateQueries(["posts"]);
   }
-
+  let followed
+  if (Array.isArray(user.followers)) {
+     followed = user.followers.includes(currentUser.id);
+    console.log(followed);
+  }
   return (
     <div key={post._id} className="post">
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            
-            <img src={user.profilePic} alt="" />
+          <Link
+                to={`/profile/${post.userId}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+            <img src={user.profilePic} alt="" /></Link>
             <div className="details">
+              <span>
               <Link
                 to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">{user.name}</span>
-              </Link>
+                <span className="name">{user.name}</span> </Link> <span className="follow">
+               { post.userId!=currentUser.id ? followed?<button onClick={unfollow}>following</button>:<button onClick={follow}>follow</button>:""}
+                  </span>
+                  </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
