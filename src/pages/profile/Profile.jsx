@@ -29,33 +29,18 @@ const Profile = () => {
     })
   )
 
-  // const { isLoading: rIsLoading, data: relationshipData } = useQuery(
-  //   ["relationship"],
-  //   () =>
-  //     makeRequest.get("/relationships?followedUserId=" + userId).then((res) => {
-  //       return res.data;
-  //     })
-  // );
-
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    (following) => {
-      if (following)
-        return makeRequest.put(`users/${userId}/unfollow`);
-      return makeRequest.put(`users/${userId}/follow`);
-    },
-    {
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["user"]);
-      },
-    }
-  );
-
-  const handleFollow = () => {
-    mutation.mutate(data.followers.includes(currentUser._id));
-  };
+ 
+async function unfollow(){
+  await makeRequest.put(`users/${userId}/unfollow`);
+  queryClient.invalidateQueries(["user"]);
+}
+async  function follow(){
+  await makeRequest.put(`users/${userId}/follow`);
+  queryClient.invalidateQueries(["user"]);
+}
+  
 console.log(data,'data here');
   return (
     <div className="profile">
@@ -81,29 +66,17 @@ console.log(data,'data here');
                   </div>
                 </div>
                 
-                {/* <a href="http://facebook.com">
-                  <FacebookTwoToneIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <InstagramIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <TwitterIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <LinkedInIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <PinterestIcon fontSize="large" />
-                </a> */}
+              
               </div>
               <div className="center">
+         
                 <span>{data.name}</span>
-                {userId === currentUser.id ?<button onClick={() => setOpenUpdate(true)}>update</button>
+                {userId == currentUser.id ?<button onClick={() => setOpenUpdate(true)}>update</button>
                 :
-                <button onClick={handleFollow}>
-                  {data.followers.includes(currentUser._id)?'following':'follow'}
-                  </button>
+                <span >
+                         {console.log(data.followers.includes(currentUser.id),'what the fuck happened',currentUser.id,'dadsa',data.followers)}
+                  {data.followers.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={follow}>follow</button>}
+                  </span>
                 }
               
               </div>
