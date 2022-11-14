@@ -24,6 +24,7 @@ const Profile = () => {
   const userId = useLocation().pathname.split("/")[2]
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("users/" + userId).then((res) => {
+  
       return res.data;
     })
   )

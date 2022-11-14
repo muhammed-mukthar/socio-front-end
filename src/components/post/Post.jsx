@@ -17,7 +17,7 @@ const Post = ({ post }) => {
   const {currentUser} = useContext(AuthContext)
 
   const queryClient = useQueryClient();
-  console.log(post,'posts here');
+
   const [commentOpen, setCommentOpen] = useState(false);
   const [user, setUser] = useState({})
 //   const { isLoading, error, data } = useQuery(["posts"], () =>
@@ -32,7 +32,7 @@ const Post = ({ post }) => {
     }).catch((err)=>{console.log(err);})
 
   }, [post])
-  console.log(user);
+
   //TEMPORARY
   
  async function handlelike(id){
@@ -70,14 +70,14 @@ const Post = ({ post }) => {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+           {post.comments.length}
           </div>
           <div className="item">
             <ShareOutlinedIcon />
             Share
           </div>
         </div>
-        {commentOpen && <Comments  />}
+        {commentOpen && <Comments  post={post} user={user}/>}
       </div>
     </div>
   );

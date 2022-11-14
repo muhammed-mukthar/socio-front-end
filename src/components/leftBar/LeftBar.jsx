@@ -44,7 +44,7 @@ const LeftBar = () => {
   };
 
  
-console.log(currentUser,'currentUser');
+
   return (
     <div className="leftBar">
       <div className="container">
