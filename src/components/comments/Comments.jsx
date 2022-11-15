@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import "./comments.scss";
 import { AuthContext } from "../../context/authContext";
 import { makeRequest } from "../../axios/axios";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Swal from 'sweetalert2'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 const Comments = ({ post ,user}) => {
   const { currentUser } = useContext(AuthContext);
@@ -14,6 +16,32 @@ const newComment={
   profile:currentUser.profilePic,
   name:currentUser.name
 }
+
+async function DeleteComment  (postid,commentId) {
+  Swal.fire({
+    title: 'Do you want to Delete comment?',
+   
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+  
+    customClass: {
+      actions: 'my-actions',
+      cancelButton: 'order-1 right-gap',
+      confirmButton: 'order-2',
+     
+    }
+  }).then(async(result) => {
+    if (result.isConfirmed) {
+      
+ await makeRequest.put(`/posts/${postid}/uncomment`,{commentId:commentId})
+  queryClient.invalidateQueries(["posts"]);
+    } else if (result.isDenied) {
+      
+    }
+  })
+  
+
+};
 
  async function postComment(postid){
   await  makeRequest.put(`/posts/${postid}/comment`,newComment)
@@ -37,7 +65,11 @@ const newComment={
             <span>{comment.name}</span>
             <p>{comment.comment}</p>
           </div>
-          <span className="date">1 hour ago</span>
+          {currentUser.id ==comment.user? <span className="date" onClick={()=>{DeleteComment(post._id,comment._id)}}><DeleteOutlineOutlinedIcon  /></span>:""
+          
+          
+          }
+         
         </div>
       ))}
     </div>

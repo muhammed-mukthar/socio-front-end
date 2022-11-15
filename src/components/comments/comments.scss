@@ -55,12 +55,12 @@
           color:themed("textColorSoft")
         }
       }
-
       .date{
         flex:1;
         align-self: center;
         color: gray;
         font-size: 12px;
+        cursor: pointer;
       }
     }
   }

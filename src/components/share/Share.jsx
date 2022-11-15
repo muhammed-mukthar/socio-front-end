@@ -59,7 +59,6 @@ formData.append("image", file);
  queryClient.invalidateQueries(["posts"]);
   console.log('request send');
 })
-console.log(response,'response here machi');
   }
 
 
