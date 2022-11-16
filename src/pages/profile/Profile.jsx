@@ -74,8 +74,8 @@ console.log(data,'data here');
                 {userId == currentUser.id ?<button onClick={() => setOpenUpdate(true)}>update</button>
                 :
                 <span >
-                         {console.log(data.followers.includes(currentUser.id),'what the fuck happened',currentUser.id,'dadsa',data.followers)}
-                  {data.followers.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={follow}>follow</button>}
+                        
+                  {data.followers.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>}
                   </span>
                 }
               

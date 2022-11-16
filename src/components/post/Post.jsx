@@ -31,21 +31,23 @@ const Post = ({ post }) => {
   //TEMPORARY
   async function unfollow(){
     await makeRequest.put(`users/${post.userId}/unfollow`);
-    queryClient.invalidateQueries(["user"]);
+   await queryClient.invalidateQueries(["user"]);
+  await  queryClient.invalidateQueries(["posts"]);
   }
   async  function follow(){
     await makeRequest.put(`users/${post.userId}/follow`);
     queryClient.invalidateQueries(["user"]);
+    queryClient.invalidateQueries(["posts"]);
   }
  async function handlelike(id){
    await makeRequest.put(`/posts/${id}/like`)
    queryClient.invalidateQueries(["posts"]);
   }
-  let followed
-  if (Array.isArray(user.followers)) {
-     followed = user.followers.includes(currentUser.id);
-    console.log(followed);
-  }
+  // let followed=false
+  // if (Array.isArray(user.followers)) {
+  //    followed = user.followers.includes(currentUser.id);
+  //   console.log(followed,'hhjhjhjh');
+  // }
   return (
     <div key={post._id} className="post">
       <div className="container">
@@ -63,7 +65,8 @@ const Post = ({ post }) => {
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <span className="name">{user.name}</span> </Link> <span className="follow">
-               { post.userId!=currentUser.id ? followed?<button onClick={unfollow}>following</button>:<button onClick={follow}>follow</button>:""}
+                  {console.log(user.followers?.includes(currentUser.id),'user followers',user.followers,'curre')}
+                { post.userId != currentUser.id ? user.followers?.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>:""}
                   </span>
                   </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
