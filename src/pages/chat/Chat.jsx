@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import LogoSearch from '../../components/LogoSearch/LogoSearch'
 import './chat.css'
 import { AuthContext } from "../../context/authContext";
@@ -9,11 +9,35 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Link } from 'react-router-dom';
+import io from 'socket.io-client'
+import ChatBox from '../../components/ChatBox/ChatBox';
 function Chat() {
     const { currentUser } = useContext(AuthContext);
     console.log(currentUser,'current');
     const [chats, setChats] = useState([]);
+    const [sendMessage, setSendMessage] = useState(null);
     const [currentChat,setCurrentChat]=useState(null)
+    const [receivedMessage, setReceivedMessage] = useState(null);
+    const [onlineUsers,setOnlineUsers]=useState([])
+    const socket=useRef()
+
+    
+
+
+
+    
+
+
+
+    useEffect(()=>{
+      socket.current=io('http://localhost:8800')
+      socket.current.emit('new-user-add',currentUser.id)
+      socket.current.on('get-users',(users)=>{
+        setOnlineUsers(users)
+     
+      })
+    },[currentUser])
+    
 
     useEffect(() => {
         const getChats = async () => {
@@ -27,6 +51,25 @@ function Chat() {
         getChats();
       }, [currentUser.id]);
 
+      //send to socket server
+    
+  useEffect(() => {
+    if (sendMessage!==null) {
+      socket.current.emit("send-message", sendMessage);}
+  }, [sendMessage]);
+
+    
+
+
+    //recieve 
+    useEffect(() => {
+      socket.current.on("recieve-message", (data) => {
+        console.log(data)
+        setReceivedMessage(data);
+      }
+  
+      );
+    }, []);
 console.log(chats,'jjeee');
   return (
     <div className="Chat">
@@ -74,7 +117,7 @@ console.log(chats,'jjeee');
       </Link>
     </div>
 
-    <ChatBox chat={currentchat} currentUser={user._id}/>
+    <ChatBox chat={currentChat} currentUser={currentUser.id} setSendMessage={setSendMessage}  receivedMessage={receivedMessage} />
       </div>
       
     </div>
