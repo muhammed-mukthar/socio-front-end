@@ -87,8 +87,10 @@ const LeftBar = () => {
                 </Link>
             </div>
             <div className='items'>
+            <Link  to={`/chat`} style={{textDecoration:"none",color: "inherit"}} >
                 <ChatBubbleOutlineOutlinedIcon className='icon'/>
                 <span>Chats</span>
+                </Link>
             </div>
             <div className='items'>
             <Link to='/news' style={{textDecoration:"none",color: "inherit"}} >

@@ -64,10 +64,11 @@ const Post = ({ post }) => {
                 to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">{user.name}</span> </Link> <span className="follow">
+                <span className="name">{user.name}</span> </Link> 
+                {/* <span className="follow">
                   {console.log(user.followers?.includes(currentUser.id),'user followers',user.followers,'curre')}
                 { post.userId != currentUser.id ? user.followers?.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>:""}
-                  </span>
+                  </span> */}
                   </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
