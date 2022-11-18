@@ -12,65 +12,54 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client'
 import ChatBox from '../../components/ChatBox/ChatBox';
 function Chat() {
+  const socket=useRef()
     const { currentUser } = useContext(AuthContext);
     console.log(currentUser,'current');
     const [chats, setChats] = useState([]);
-    const [sendMessage, setSendMessage] = useState(null);
-    const [currentChat,setCurrentChat]=useState(null)
-    const [receivedMessage, setReceivedMessage] = useState(null);
-    const [onlineUsers,setOnlineUsers]=useState([])
-    const socket=useRef()
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receivedMessage, setReceivedMessage] = useState(null);
+  // Get the chat in chat section
+  useEffect(() => {
+    const getChats = async () => {
+      try {
+        const { data } = await makeRequest.get(`/conversation/${currentUser.id}`)
+        setChats(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getChats();
+  }, [currentUser.id]);
 
-    
+  // Connect to Socket.io
+  useEffect(() => {
+    socket.current = io("ws://localhost:8800");
+    socket.current.emit("new-user-add", currentUser.id);
+    socket.current.on("get-users", (users) => {
+      setOnlineUsers(users);
+    });
+  }, [currentUser]);
 
-
-
-    
-
-
-
-    useEffect(()=>{
-      socket.current=io('http://localhost:8800')
-      socket.current.emit('new-user-add',currentUser.id)
-      socket.current.on('get-users',(users)=>{
-        setOnlineUsers(users)
-     
-      })
-    },[currentUser])
-    
-
-    useEffect(() => {
-        const getChats = async () => {
-          try {
-           const {data}=await makeRequest.get(`/conversation/${currentUser.id}`)
-            setChats(data);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        getChats();
-      }, [currentUser.id]);
-
-      //send to socket server
-    
+  // Send Message to socket server
   useEffect(() => {
     if (sendMessage!==null) {
       socket.current.emit("send-message", sendMessage);}
   }, [sendMessage]);
 
-    
+
+  // Get the message from socket server
+  useEffect(() => {
+    socket.current.on("recieve-message", (data) => {
+      console.log(data)
+      setReceivedMessage(data);
+    }
+
+    );
+  }, []);
 
 
-    //recieve 
-    useEffect(() => {
-      socket.current.on("recieve-message", (data) => {
-        console.log(data)
-        setReceivedMessage(data);
-      }
-  
-      );
-    }, []);
-console.log(chats,'jjeee');
   return (
     <div className="Chat">
     {/* Left Side */}

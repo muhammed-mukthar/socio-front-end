@@ -10,7 +10,7 @@ const Register = () => {
     password: "",
     name: "",
   });
-  const [err, setErr] = useState(null);
+  const [error, setErr] = useState(null);
   const navigate = useNavigate()
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -19,15 +19,31 @@ const Register = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-
-    try {
-      await axios.post("http://localhost:5000/api/auth/register", inputs)
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    e.preventDefault();
+    if(inputs.email.trim().length < 4 ){
+      setErr("invalid email")
+    }else if(inputs.name.trim().length < 4 ){
+      setErr("invalid name")
+    }else if(inputs.password.trim().length <4){
+      setErr('Invalid password')
+    }else if(!regex.test(inputs.email)){
+setErr("This is not a valid email format!")
+    }else{
+       try {
+   const isregister=   await axios.post("http://localhost:5000/api/auth/register", inputs)
+   if(isregister.data.err){
+    setErr(isregister.data.err)
+   }
       navigate('/login')
     } catch (err) {
       setErr(err.response.data);
     }
+    }
+
+   
   };
-  console.log(err);
+
 
   return (
     <div className="register">
@@ -66,7 +82,7 @@ const Register = () => {
               name="name"
               onChange={handleChange}
             />
-            {err && err}
+            {error && error}
             <button onClick={handleClick}>Register</button>
           </form>
         </div>

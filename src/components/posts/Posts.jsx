@@ -13,9 +13,9 @@ const Posts = ({userId}) => {
 
   return <div className="posts">
    {error?"no posts yet":
-      (isLoading ? "loading...":data.filter(post=>{return post!=false}).map(post=>(
-        <Post post={post} key={post._id}/>
-      )))
+      (isLoading ? "loading...":(data.length>1?data.filter(post=>{return post!=false}).map(post=>(
+        <Post post={post} key={post._id}/>)
+      ):"No posts yet"))
     }
  
   </div>;

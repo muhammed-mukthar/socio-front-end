@@ -11,8 +11,11 @@ export const AuthContextProvider = ({ children }) => {
   const login =async (inputs) => {
    
    const res=await axios.post(`http://localhost:5000/api/auth/login`,inputs)
-   
-     setCurrentUser(res.data)
+   if(res.data.message){
+    return res.data
+   }else{
+      setCurrentUser(res.data)
+   }
   };
   useEffect(() => {
     

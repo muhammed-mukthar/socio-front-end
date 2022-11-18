@@ -6,81 +6,80 @@ import { format } from "timeago.js";
 function ChatBox({ chat, currentUser,setSendMessage,receivedMessage }) {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
-
   const [newMessage, setNewMessage] = useState("");
 
-  const handleChange=(newMessage)=>{
+  const handleChange = (newMessage)=> {
     setNewMessage(newMessage)
   }
 
-    // fetching data for header
-    useEffect(() => {
-      const userId = chat?.members?.find((id) => id !== currentUser);
-      const getUserData = async () => {
-        try {
-          const { data } = await makeRequest.get(`users/${userId}`);
-          setUserData(data);
-          console.log(data, "data here");
-        } catch (error) {
-          console.log(error);
-        }
+  // fetching data for header
+  useEffect(() => {
+    const userId = chat?.members?.find((id) => id !== currentUser);
+    const getUserData = async () => {
+      try {
+        const { data } = await makeRequest.get(`users/${userId}`);
+        setUserData(data);
+      } catch (error) {
+        console.log(error);
       }
-      if (chat !== null) getUserData();
-    }, [chat, currentUser]);
+    };
 
-    useEffect(() => {
-      const fetchMessages = async () => {
-        try {
-          const { data } = await makeRequest(`/message/${chat._id}`);
-          console.log(chat._id,'chat');
-          setMessages(data);
-          console.log(data,'chat data here');
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      if (chat !== null) fetchMessages();
-    }, [chat]);
+    if (chat !== null) getUserData();
+  }, [chat, currentUser]);
 
-    
-
-    useEffect(()=> {
-      console.log("Message Arrived: ", receivedMessage)
-      if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-        setMessages([...messages, receivedMessage]);
+  // fetch messages
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const { data } = await makeRequest(`/message/${chat._id}`);
+        setMessages(data);
+      } catch (error) {
+        console.log(error);
       }
-    
-    },[receivedMessage])
+    };
+
+    if (chat !== null) fetchMessages();
+  }, [chat]);
 
 
-  
+  // Always scroll to last Message
+  useEffect(()=> {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  },[messages])
 
 
 
-  const handleSend=async(e)=>{
-    e.preventDefault();
-    const message={
-      senderId:currentUser,
-      text:newMessage,
-      conversationId:chat._id
-    }
-     const receiverId=chat.members.find((id)=>id !== currentUser);
-     console.log(receiverId,'reciever I d');
-    setSendMessage({...message,receiverId})
-      //send to database
-    try{
-      const {data}=await makeRequest.post('/message',message)
-      setMessages([...messages,data])
-      setNewMessage("")
-
-    }catch(err){
-console.log(err);
-    }
-    
-    //send message to socket
-   
-
+  // Send Message
+  const handleSend = async(e)=> {
+    e.preventDefault()
+    const message = {
+      senderId : currentUser,
+      text: newMessage,
+      chatId: chat._id,
   }
+  const receiverId = chat.members.find((id)=>id!==currentUser);
+  // send message to socket server
+  setSendMessage({...message, receiverId})
+  // send message to database
+  try {
+    const { data } = await makeRequest.post('/message',message)
+    setMessages([...messages, data]);
+    setNewMessage("");
+  }
+  catch
+  {
+    console.log("error")
+  }
+}
+
+// Receive Message from parent component
+useEffect(()=> {
+  console.log("Message Arrived: ", receivedMessage)
+  if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
+    setMessages([...messages, receivedMessage]);
+  }
+
+},[receivedMessage])
 
   return (
     <>
