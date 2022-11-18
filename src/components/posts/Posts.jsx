@@ -15,7 +15,7 @@ const Posts = ({userId}) => {
    {error?"no posts yet":
       (isLoading ? "loading...":(data.length>1?data.filter(post=>{return post!=false}).map(post=>(
         <Post post={post} key={post._id}/>)
-      ):"No posts yet"))
+      ):<div style={{height:"100vh"}}>No posts yet</div>  ))
     }
  
   </div>;

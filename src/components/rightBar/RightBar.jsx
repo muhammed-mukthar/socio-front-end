@@ -1,89 +1,56 @@
+import { useEffect, useState } from "react";
 import "./rightBar.scss";
-
+import { useContext} from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "../../context/authContext";
+import { makeRequest } from "../../axios/axios";
 const RightBar = () => {
+  const queryClient = useQueryClient();
+
+  const {currentUser} = useContext(AuthContext)
+  const [suggesteduser, setSuggestedUser] = useState([])
+  const [status, setStatus] = useState(false)
+  useEffect(()=>{
+
+    makeRequest.get(`users/suggestedusers`).then((res)=>{
+      console.log(res.data,'data fhhsjkdahfsdhjkskfdhhjfsdl');
+      setSuggestedUser(res.data)
+    }).catch((err)=>{console.log(err);})
+
+    
+  },[status])
+
+
+  async  function handlefollow(id){
+    await makeRequest.put(`users/${id}/follow`);
+    setStatus(!status)
+    queryClient.invalidateQueries(["posts"]);
+  }
+  
   return (
     <div className="rightBar">
       <div className="container">
         <div className="item follow">
           <span>Suggestions For You</span>
-          <div className="user">
+          {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser.id}).map( (sugestUser)=>{return  <div className="user">
             <div className="userInfo">
               <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            
+                src={sugestUser.profilePic}
                 alt=""
               />
-              <span>Jane Doe</span>
+              <span>{sugestUser.name}</span>
             </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <span>Jane Doe</span>
-            </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <span>Jane Doe</span>
-            </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <span>Jane Doe</span>
-            </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <span>Jane Doe</span>
-            </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <span>Jane Doe</span>
-            </div>
-            <div className="buttons">
-              <button>follow</button>
-              <button>dismiss</button>
-            </div>
-          </div>
+           <span><div className="buttons">
+            
+              <button onClick={()=>{handlefollow(sugestUser._id)}}>follow</button>
+            
+            </div></span>
+          </div>})}
+       
+        
+          
+      
         </div>
         <div className="item">
           <span>Latest Activities</span>

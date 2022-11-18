@@ -20,13 +20,28 @@ const Post = ({ post }) => {
 
   const [commentOpen, setCommentOpen] = useState(false);
   const [user, setUser] = useState({})
+  const [menuOpen, setMenuOpen] = useState(false)
 
+  const deleteMutation = useMutation(
+    (postId) => {
+      return makeRequest.delete("/posts/" + postId);
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
   useEffect(() => {
     makeRequest.get(`users/${post.userId}`).then((res)=>{
       setUser(res.data)
     }).catch((err)=>{console.log(err);})
 
   }, [post])
+  const handleDelete = () => {
+    deleteMutation.mutate(post._id);
+  };
 
   //TEMPORARY
   async function unfollow(){
@@ -73,7 +88,10 @@ const Post = ({ post }) => {
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon />
+          { post.userId === currentUser.id&&<MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />}
+          {menuOpen && post.userId === currentUser.id && (
+            <button onClick={handleDelete}>delete</button>
+          )}
         </div>
         <div className="content">
           <p>{post.desc}</p>
@@ -88,10 +106,7 @@ const Post = ({ post }) => {
             <TextsmsOutlinedIcon />
            {post.comments.length}
           </div>
-          <div className="item">
-            <ShareOutlinedIcon />
-            Share
-          </div>
+         
         </div>
         {commentOpen && <Comments  post={post} user={user}/>}
       </div>
