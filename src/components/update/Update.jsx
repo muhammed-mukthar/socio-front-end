@@ -9,14 +9,21 @@ import {useNavigate,Link} from 'react-router-dom'
 import Swal from 'sweetalert2'
 const Update = ({ setOpenUpdate, user }) => {
   const navigate = useNavigate()
-  const [values, setValues] = useState({
-    username: "",
-    email: "",
-    city:"",
-    desc:"",
-    password: "",
-    confirmPassword: "",
-  });
+  const [cover, setCover] = useState(null);
+  const [profile, setProfile] = useState(null);
+  // const [profilePic, setProfilePic] = useState(user.profilePic||"");
+  // const [profilekey, setProfilekey] = useState(user.profilekey||"");
+  // const [coverkey, setCoverkey] = useState(user.coverkey||"");
+  // const [coverPic, setCoverPic] = useState(user.coverPic||"");
+  // console.log(profilePic,coverPic,'coverpic');
+  // const [values, setValues] = useState({
+  //   username: "",
+  //   email: "",
+  //   city:"",
+  //   desc:"",
+  //   password: "",
+  //   confirmPassword: "",
+  // });
 const [error, setError] = useState(false);
  
   const [texts, setTexts] = useState({
@@ -24,13 +31,75 @@ const [error, setError] = useState(false);
     password: user.password,
     name: user.name,
     city: user.city,
-    website: user.website,
   });
-  const {password,...others} = texts
- let details=others
+
+ 
+
+let  profilePic=user.profilePic
+let profilekey=user.profilekey
+let coverkey=user.coverkey
+let  coverPic=user.coverPic
+
+
   const handleSubmit = async(e) => {
     e.preventDefault();
+    var formData = new FormData();
+     if (profile) {
+      formData.append("image", profile);
+   const profileConfig=await  axios.post("http://localhost:5000/api/uploads/images", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+            "x-refresh": JSON.parse(localStorage.getItem("user")).refreshToken,
+          },
+        })
+        if(profileConfig){
+          //    setProfilePic(profileConfig.data.location)
+          // setProfilekey(profileConfig.data.key)
+            profilePic=profileConfig.data.location
+ profilekey=profileConfig.data.key
+          // console.log(profileConfig.data,'profile config data',profileConfig.data.location,profileConfig.data.key);
+        }
+       
+      
+      }
+      if(cover){
+        formData.append("image", cover);
+      const  coverConfig=  await   axios.post("http://localhost:5000/api/uploads/images", formData, {
+               headers: {
+                 "Content-Type": "multipart/form-data",
+                 authorization:
+                   "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+                 "x-refresh": JSON.parse(localStorage.getItem("user")).refreshToken,
+               },
+             })
+
+             if(coverConfig){
+              //   setCoverPic(coverConfig.data.location)
+              // setCoverkey(coverConfig.data.key)
+               coverkey=coverConfig.data.key
+               coverPic=coverConfig.data.location
+              // console.log(coverConfig.data,'coverConfig config data',coverConfig.data.location,coverConfig.data.key);
+             }
+            
+
+            
+      }
     try {
+      console.log(profilePic,coverPic,'coverpi fsdkhjhfshkljfshlkfsac');
+      let details={
+        email: texts.email,
+        password: texts.password,
+        name: texts.name,
+        city: texts.city,
+        profilePic:profilePic,
+        profilekey:profilekey,
+        coverkey:coverkey,
+        coverPic:coverPic
+    
+      }
+      console.log(details,'details here');
        makeRequest.put(`users/${user._id}`,details).then((response) => {
         console.log('update success',response);
         queryClient.invalidateQueries(["user"]);
@@ -59,9 +128,7 @@ const [error, setError] = useState(false);
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const [cover, setCover] = useState(null);
-  const [profile, setProfile] = useState(null);
-  
+
 
 
 
@@ -176,13 +243,7 @@ const [error, setError] = useState(false);
           value={texts.city}
           onChange={handleChange}
         />
-        <label>Website</label>
-        <input
-          type="text"
-          name="website"
-          value={texts.website}
-          onChange={handleChange}
-        />
+      
         <button onClick={handleSubmit}>Update</button>
       </form>
       <button className="close" onClick={() => setOpenUpdate(false)}>
