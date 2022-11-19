@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { makeRequest } from "../../axios/axios";
 import "./update.scss";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -7,23 +7,16 @@ import FormInput from "../../components/formInput/FormInput";
 import axios from 'axios'
 import {useNavigate,Link} from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { AuthContext } from "../../context/authContext";
+
+
+
+  
 const Update = ({ setOpenUpdate, user }) => {
   const navigate = useNavigate()
   const [cover, setCover] = useState(null);
   const [profile, setProfile] = useState(null);
-  // const [profilePic, setProfilePic] = useState(user.profilePic||"");
-  // const [profilekey, setProfilekey] = useState(user.profilekey||"");
-  // const [coverkey, setCoverkey] = useState(user.coverkey||"");
-  // const [coverPic, setCoverPic] = useState(user.coverPic||"");
-  // console.log(profilePic,coverPic,'coverpic');
-  // const [values, setValues] = useState({
-  //   username: "",
-  //   email: "",
-  //   city:"",
-  //   desc:"",
-  //   password: "",
-  //   confirmPassword: "",
-  // });
+
 const [error, setError] = useState(false);
  
   const [texts, setTexts] = useState({
@@ -33,7 +26,7 @@ const [error, setError] = useState(false);
     city: user.city,
   });
 
- 
+  const { refetchuser } = useContext(AuthContext);
 
 let  profilePic=user.profilePic
 let profilekey=user.profilekey
@@ -50,8 +43,8 @@ let  coverPic=user.coverPic
           headers: {
             "Content-Type": "multipart/form-data",
             authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-            "x-refresh": JSON.parse(localStorage.getItem("user")).refreshToken,
+              "Bearer " + JSON.parse(localStorage.getItem("authentication")).accessToken,
+            "x-refresh": JSON.parse(localStorage.getItem("authentication")).refreshToken,
           },
         })
         if(profileConfig){
@@ -70,8 +63,8 @@ let  coverPic=user.coverPic
                headers: {
                  "Content-Type": "multipart/form-data",
                  authorization:
-                   "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-                 "x-refresh": JSON.parse(localStorage.getItem("user")).refreshToken,
+                   "Bearer " + JSON.parse(localStorage.getItem("authentication")).accessToken,
+                 "x-refresh": JSON.parse(localStorage.getItem("authentication")).refreshToken,
                },
              })
 
@@ -102,10 +95,12 @@ let  coverPic=user.coverPic
       console.log(details,'details here');
        makeRequest.put(`users/${user._id}`,details).then((response) => {
         console.log('update success',response);
+        refetchuser(user._id)
         queryClient.invalidateQueries(["user"]);
+       
         setOpenUpdate(false)
     }).catch((err)=>{
-     err.response.data.error?setError(err.response.data.error):setError(err.response.data.msg)
+    console.log(err);
       
     })
     } catch (error) {
@@ -124,11 +119,6 @@ let  coverPic=user.coverPic
    }
 
   };
-
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
 
 
 

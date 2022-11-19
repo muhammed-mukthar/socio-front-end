@@ -15,12 +15,13 @@ const RightBar = () => {
     makeRequest.get(`users/suggestedusers`).then((res)=>{
       console.log(res.data,'data fhhsjkdahfsdhjkskfdhhjfsdl');
       setSuggestedUser(res.data)
+      
     }).catch((err)=>{console.log(err);})
 
     
-  },[status])
+  },[status,currentUser])
 
-
+console.log(suggesteduser,'suggested user');
   async  function handlefollow(id){
     await makeRequest.put(`users/${id}/follow`);
     setStatus(!status)
@@ -32,7 +33,7 @@ const RightBar = () => {
       <div className="container">
         <div className="item follow">
           <span>Suggestions For You</span>
-          {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser.id}).map( (sugestUser)=>{return  <div className="user">
+          {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser._id}).map( (sugestUser)=>{return  <div className="user">
             <div className="userInfo">
               <img
             

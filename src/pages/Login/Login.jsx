@@ -31,19 +31,16 @@ const Login = () => {
     }else if(!regex.test(inputs.email)){
 setErr("This is not a valid email format!")
     }else{
-    
     try {
    let islogin= await  login(inputs)
    if(islogin){
       console.log(islogin,'yes u an=re')
       setErr(islogin.message)
    }else{
-        window.location.replace('/');
-      // navigate("/")
+        // window.location.replace('/');
+      navigate("/")
       console.log('i am her=');
    }
- 
-
     } catch (err) {
       // setErr(err.response.data);
       console.log(err);

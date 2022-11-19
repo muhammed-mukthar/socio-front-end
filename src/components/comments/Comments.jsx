@@ -65,7 +65,7 @@ async function DeleteComment  (postid,commentId) {
             <span>{comment.name}</span>
             <p>{comment.comment}</p>
           </div>
-          {currentUser.id ==comment.user? <span className="date" onClick={()=>{DeleteComment(post._id,comment._id)}}><DeleteOutlineOutlinedIcon  /></span>:""
+          {currentUser._id ==comment.user? <span className="date" onClick={()=>{DeleteComment(post._id,comment._id)}}><DeleteOutlineOutlinedIcon  /></span>:""
           
           
           }

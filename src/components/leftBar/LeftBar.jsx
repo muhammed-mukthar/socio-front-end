@@ -14,7 +14,7 @@ import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 
 const LeftBar = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,setCurrentUser } = useContext(AuthContext);
 
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -33,8 +33,9 @@ const LeftBar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.removeItem("user");
-    
-        window.location.replace('/login');
+        localStorage.removeItem("authentication");
+        setCurrentUser('')
+        navigate('/login');
       } else if (result.isDenied) {
         
       }
@@ -81,7 +82,7 @@ const LeftBar = () => {
           </div>
           </div>
           <div className="items">
-          <Link  to={`/profile/${currentUser.id}`} style={{textDecoration:"none",color: "inherit"}} >
+          <Link  to={`/profile/${currentUser._id}`} style={{textDecoration:"none",color: "inherit"}} >
                 <PermIdentityOutlinedIcon className='icon'/>
                 <span>Profile</span>
                 </Link>

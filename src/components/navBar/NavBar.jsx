@@ -53,7 +53,7 @@ const Navbar = () => {
                 </Link>
       
         <Link
-                to={`/profile/${currentUser.id}`}
+                to={`/profile/${currentUser._id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <div className="user">

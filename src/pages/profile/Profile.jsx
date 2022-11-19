@@ -19,12 +19,12 @@ import { useState } from "react";
 
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,refetchuser } = useContext(AuthContext);
 
   const userId = useLocation().pathname.split("/")[2]
+  console.log(userId,'userId');
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("users/" + userId).then((res) => {
-  
       return res.data;
     })
   )
@@ -49,8 +49,8 @@ console.log(data,'data here');
       ) : (
         <>
           <div className="images">
-            <img src={data.coverPic} alt="" className="cover" />
-            <img src={data.profilePic} alt="" className="profilePic" />
+            <img src={data?.coverPic} alt="" className="cover" />
+            <img src={data?.profilePic} alt="" className="profilePic" />
           </div>
           <div className="profileContainer">
             <div className="uInfo">
@@ -58,11 +58,11 @@ console.log(data,'data here');
               <div className="info">
                   <div className="item">
                     <PlaceIcon />
-                    <span>{data.city}</span>
+                    <span>{data?.city}</span>
                   </div>
                   <div className="item">
                     <LanguageIcon />
-                    <span>{data.email}</span>
+                    <span>{data?.email}</span>
                   </div>
                 </div>
                 
@@ -70,12 +70,12 @@ console.log(data,'data here');
               </div>
               <div className="center">
          
-                <span>{data.name}</span>
-                {userId == currentUser.id ?<button onClick={() => setOpenUpdate(true)}>update</button>
+                <span>{data?.name}</span>
+                {userId === currentUser._id ?<button onClick={() => setOpenUpdate(true)}>update</button>
                 :
                 <span >
                         
-                  {data.followers.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>}
+                  {data?.followers.includes(currentUser._id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>}
                   </span>
                 }
               

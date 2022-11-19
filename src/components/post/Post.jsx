@@ -60,7 +60,7 @@ const Post = ({ post }) => {
   }
   // let followed=false
   // if (Array.isArray(user.followers)) {
-  //    followed = user.followers.includes(currentUser.id);
+  //    followed = user.followers.includes(currentUser._id);
   //   console.log(followed,'hhjhjhjh');
   // }
   return (
@@ -81,15 +81,15 @@ const Post = ({ post }) => {
               >
                 <span className="name">{user.name}</span> </Link> 
                 {/* <span className="follow">
-                  {console.log(user.followers?.includes(currentUser.id),'user followers',user.followers,'curre')}
-                { post.userId != currentUser.id ? user.followers?.includes(currentUser.id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>:""}
+                  {console.log(user.followers?.includes(currentUser._id),'user followers',user.followers,'curre')}
+                { post.userId != currentUser._id ? user.followers?.includes(currentUser._id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>:""}
                   </span> */}
                   </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          { post.userId === currentUser.id&&<MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />}
-          {menuOpen && post.userId === currentUser.id && (
+          { post.userId === currentUser._id&&<MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />}
+          {menuOpen && post.userId === currentUser._id && (
             <button onClick={handleDelete}>delete</button>
           )}
         </div>
@@ -99,7 +99,7 @@ const Post = ({ post }) => {
         </div>
         <div className="info">
           <div className="item"  onClick={() => handlelike(post._id)}>
-            {post.likes.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{color:"red"}} /> : <FavoriteBorderOutlinedIcon />}
+            {post.likes.includes(currentUser._id) ? <FavoriteOutlinedIcon style={{color:"red"}} /> : <FavoriteBorderOutlinedIcon />}
            {post.likes.length}
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>

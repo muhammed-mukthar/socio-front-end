@@ -24,8 +24,8 @@ const Share = () => {
           headers: {
             "Content-Type": "multipart/form-data",
             authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-            "x-refresh": JSON.parse(localStorage.getItem("user")).refreshToken,
+              "Bearer " + JSON.parse(localStorage.getItem("authentication")).accessToken,
+            "x-refresh": JSON.parse(localStorage.getItem("authentication")).refreshToken,
           },
         })
         .then(async (result) => {

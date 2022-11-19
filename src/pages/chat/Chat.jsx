@@ -24,19 +24,19 @@ function Chat() {
   useEffect(() => {
     const getChats = async () => {
       try {
-        const { data } = await makeRequest.get(`/conversation/${currentUser.id}`)
+        const { data } = await makeRequest.get(`/conversation/${currentUser._id}`)
         setChats(data);
       } catch (error) {
         console.log(error);
       }
     };
     getChats();
-  }, [currentUser.id]);
+  }, [currentUser._id]);
 
   // Connect to Socket.io
   useEffect(() => {
     socket.current = io("ws://localhost:8800");
-    socket.current.emit("new-user-add", currentUser.id);
+    socket.current.emit("new-user-add", currentUser._id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
     });
@@ -74,7 +74,7 @@ function Chat() {
                         <Conversation
                       
                   data={chats}
-                  currentUserId={currentUser.id}
+                  currentUserId={currentUser._id}
                   key={chats._id}
                 />
                     </div>
@@ -106,7 +106,7 @@ function Chat() {
       </Link>
     </div>
 
-    <ChatBox chat={currentChat} currentUser={currentUser.id} setSendMessage={setSendMessage}  receivedMessage={receivedMessage} />
+    <ChatBox chat={currentChat} currentUser={currentUser._id} setSendMessage={setSendMessage}  receivedMessage={receivedMessage} />
       </div>
       
     </div>
