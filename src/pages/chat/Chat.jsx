@@ -41,6 +41,22 @@ function Chat() {
       setOnlineUsers(users);
     });
   }, [currentUser]);
+  const checkOnlineStatus=(chat)=>{
+    console.log(currentUser,'current user');
+    console.log(chat ,"chat is here bro");
+    const chatMembers= chat.members.find((member)=>{
+     return (member !== currentUser._id) ? member :""
+      console.log( member !== currentUser._id,'jfsdhjshjkhfsd');
+    })
+    console.log(chatMembers,'chat members here guys');
+    const online=onlineUsers.find((user)=>{
+     return user.userId==chatMembers
+    
+      console.log(user,'user here fjdjhksahkjfshkdf' );
+    })
+    console.log(online,chatMembers,onlineUsers,'log here online');
+    return online? true:false
+  }
 
   // Send Message to socket server
   useEffect(() => {
@@ -55,7 +71,6 @@ function Chat() {
       console.log(data)
       setReceivedMessage(data);
     }
-
     );
   }, []);
 
@@ -69,13 +84,14 @@ function Chat() {
         <h2>Chats</h2>
         <div className="Chat-list">
             {
-                chats.map((chats)=>(
-                    <div onClick={()=>setCurrentChat(chats)}>
+                chats.map((chat)=>(
+                    <div onClick={()=>setCurrentChat(chat)}>
                         <Conversation
                       
-                  data={chats}
+                  data={chat}
                   currentUserId={currentUser._id}
-                  key={chats._id}
+                  online={checkOnlineStatus(chat)}
+                  // key={chat._id}
                 />
                     </div>
 
@@ -96,12 +112,12 @@ function Chat() {
     <div className="Right-side-chat">
       <div style={{ width: "20rem", alignSelf: "flex-end" }}>
       <div className="navIcons">
-      <Link to="../home">
+      <Link to="/">
        <HomeOutlinedIcon/>
       </Link>
    
      < NotificationsOutlinedIcon/>
-      <Link to="../chat">
+      <Link to="/chat">
        <ChatBubbleOutlineOutlinedIcon/>
       </Link>
     </div>

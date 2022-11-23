@@ -2,7 +2,7 @@ import { Login } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { makeRequest } from '../../axios/axios'
 import './conversation.css'
-const Conversation=({data,currentUserId})=> {
+const Conversation=({data,currentUserId,online})=> {
     const [userData,setUserData]=useState(null)
     useEffect(() => {
         const userId=data.members.find((id)=>id!==currentUserId)
@@ -26,12 +26,13 @@ const Conversation=({data,currentUserId})=> {
     <>
   <div className="follower conversation">
     <div >
-        <div className="online-dot"></div>
+      {online && <div className='online-dot'></div>}
+        {/* <div className="online-dot"></div> */}
         <img src={userData?.profilePic} alt="" className='followerImage' style={{ width: "50px", height: "50px" }} />
         <div className="name" style={{fontSize: '0.8rem'}}>
             <span>{userData?.name} </span>
             {/* <span style={{color: online?"#51e200":""}}>{online? "Online" : "Offline"}</span> */}
-            <span>online</span>
+            <span>{online?"online":"offline"}</span>
           </div>
     </div>
   </div>
