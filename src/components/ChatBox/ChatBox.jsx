@@ -83,7 +83,7 @@ const scroll=useRef()
             {/* chat-header */}
             <div className="chat-header">
               <div className="follower">
-                <div>
+                <div >
                   <img
                     src={userData?.profilePic}
                     alt="Profile"

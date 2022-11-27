@@ -25,14 +25,14 @@ const Conversation=({data,currentUserId,online})=> {
   return (
     <>
   <div className="follower conversation">
-    <div >
+    <div  >
       {online && <div className='online-dot'></div>}
         {/* <div className="online-dot"></div> */}
-        <img src={userData?.profilePic} alt="" className='followerImage' style={{ width: "50px", height: "50px" }} />
+        <img src={userData?.profilePic} alt="Profile" className='followerImage' style={{ width: "50px", height: "50px" }} />
         <div className="name" style={{fontSize: '0.8rem'}}>
             <span>{userData?.name} </span>
             {/* <span style={{color: online?"#51e200":""}}>{online? "Online" : "Offline"}</span> */}
-            <span>{online?"online":"offline"}</span>
+            <span  style={{color: online?"#51e200":""}}>{online?"online":"offline"}</span>
           </div>
     </div>
   </div>

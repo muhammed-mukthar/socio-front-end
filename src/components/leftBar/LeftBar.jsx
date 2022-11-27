@@ -69,10 +69,7 @@ const LeftBar = () => {
             <span>Followers</span>
             <h1>{currentUser.followers.length}</h1>
           </div>
-          <div className='followers' >
-            <span>Posts</span>
-            <h1>100</h1>
-          </div>
+        
           <div className='followings'>
             <span>Followings</span>
             <h1>{currentUser.following.length}</h1>

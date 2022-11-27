@@ -4,6 +4,7 @@ import { useContext} from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
 import { makeRequest } from "../../axios/axios";
+import { Link } from "react-router-dom";
 const RightBar = () => {
   const queryClient = useQueryClient();
 
@@ -11,22 +12,18 @@ const RightBar = () => {
   const [suggesteduser, setSuggestedUser] = useState([])
   const [status, setStatus] = useState(false)
   useEffect(()=>{
-
     makeRequest.get(`users/suggestedusers`).then((res)=>{
       console.log(res.data,'data fhhsjkdahfsdhjkskfdhhjfsdl');
       setSuggestedUser(res.data)
-      
-    }).catch((err)=>{console.log(err);})
-
-    
+    }).catch((err)=>{console.log(err);}) 
   },[status,currentUser])
-
 console.log(suggesteduser,'suggested user');
   async  function handlefollow(id){
     await makeRequest.put(`users/${id}/follow`);
     setStatus(!status)
     queryClient.invalidateQueries(["posts"]);
   }
+
   
   return (
     <div className="rightBar">
@@ -34,6 +31,10 @@ console.log(suggesteduser,'suggested user');
         <div className="item follow">
           <span>Suggestions For You</span>
           {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser._id}).map( (sugestUser)=>{return  <div className="user">
+          <Link
+                to={`/profile/${sugestUser._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
             <div className="userInfo">
               <img
             
@@ -42,6 +43,7 @@ console.log(suggesteduser,'suggested user');
               />
               <span>{sugestUser.name}</span>
             </div>
+            </Link>
            <span><div className="buttons">
             
               <button onClick={()=>{handlefollow(sugestUser._id)}}>follow</button>
