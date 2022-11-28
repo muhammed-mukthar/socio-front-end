@@ -11,8 +11,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios/axios";
-import { useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/authContext";
 import Update from "../../components/update/Update";
 import { useState } from "react";
@@ -20,16 +20,24 @@ import { useState } from "react";
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser,refetchuser } = useContext(AuthContext);
-
-  const userId = useLocation().pathname.split("/")[2]
-  console.log(userId,'userId');
-  const { isLoading, error, data } = useQuery(["user"], () =>
+  
+  const queryClient = useQueryClient();
+ 
+  const { id } = useParams()
+  const userId = id;
+  useEffect(()=>{
+    queryClient.invalidateQueries(["user"]);
+  },[userId])
+   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("users/" + userId).then((res) => {
       return res.data;
     })
   )
 
-  const queryClient = useQueryClient();
+  console.log(userId,'userIdhere');
+ 
+
+ 
 
  
 async function unfollow(){

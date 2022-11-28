@@ -16,10 +16,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
 
         .userInfo {
           display: flex;
           gap: 20px;
+
+          
 
           img {
             width: 40px;
@@ -34,23 +37,6 @@
 
             .name {
               font-weight: 500;
-             
-              
-            }
-            .follow{
-              button{
-                background-color: transparent;
-                border: none;
-                color: blue;
-                cursor: pointer;
-              }
-              .follow:hover{
-                button{
-                     font-weight: bold;
-                }
-             
-              }
-              
             }
 
             .date {
@@ -58,10 +44,42 @@
             }
           }
         }
+
+        input {
+          padding: 5px;
+          border: none;
+          border-bottom: 1px solid themed("border");
+          color: gray;
+          background-color: transparent;
+          margin-left: 2rem;
+          position: absolute;
+          right: 61px;
+          top: 4rem;
+        }
+
+        button {
+          position: absolute;
+          top: 30px;
+          right: 0;
+          border: none;
+          background-color: #f0544f;
+          padding: 5px;
+          cursor: pointer;
+          color: white;
+        }
+        .err{
+          position: absolute;
+          top: 30px;
+          right: 0;
+          border: none;
+          padding: 5px;
+          color: rgb(245, 0, 0);
+        }
       }
 
       .content {
         margin: 20px 0px;
+
 
         img {
           width: 100%;
@@ -87,3 +105,20 @@
     }
   }
 }
+
+  .close {
+    margin-left: 24rem;
+    margin-top: -1.5rem;
+    position: absolute;
+    cursor: pointer;
+  }
+  .ReactModal__Content{
+    
+    min-width: 25rem;
+    .sendButton{
+      margin-top: 10px;
+      width: 6rem;
+      background: orange;
+    }
+  }
+
