@@ -20,6 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Modal from 'react-modal'
 import Swal from 'sweetalert2'
@@ -228,10 +229,10 @@ const Post = ({ post }) => {
           }} style={{ cursor: "pointer" }} />
           {post.userId === currentUser._id ? menuOpen && post.userId === currentUser._id && (
             <>
-              <button onClick={handleDelete}>Delete</button>
-              <button onClick={handleUpdate} style={{ top: "4rem", backgroundColor: "blue" }}>Update</button>
+              <button onClick={handleDelete}><span><DeleteIcon/></span></button>
+              <button onClick={handleUpdate} style={{ top: "4rem", backgroundColor: "blue" }}> <span><DriveFileRenameOutlineIcon/></span></button>
             </>
-          ) : menuOpen && <button onClick={openModal} style={{ backgroundColor: "orange" }}>Report</button>
+          ) : menuOpen && <button onClick={openModal} style={{ backgroundColor: "orange" }}>Report </button>
           }
           {updateOpen && (<><input type="text" placeholder="update description" onChange={(e) => setDesc(e.target.value)} onKeyDown={handleKeyDown} /></>)}
           <Modal

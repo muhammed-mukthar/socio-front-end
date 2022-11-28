@@ -25,10 +25,31 @@ function Chat() {
   useEffect(() => {
     const getChats = async () => {
       try {
-        const { data } = await makeRequest.get(
+        const friends=  await makeRequest.get("/users/friends/" + currentUser._id);
+
+        const conversation = await makeRequest.get(
           `/conversation/${currentUser._id}`
         );
-        setChats(data);
+
+        console.log("frineds ",conversation);
+
+        friends.data.filter(async(data) => {
+          console.log("data is ",data._id)
+          conversation.data.map(async (result) =>{
+            if(!result.members.includes(data._id)){
+              await makeRequest.post(
+                `/conversation/`,{senderId:currentUser._id,receiverId:data._id}
+              ).then(async()=>{
+               const allusers= await makeRequest.get(
+                  `/conversation/${currentUser._id}`
+                )
+                setChats(allusers.data);
+            })
+
+          }
+        })
+      })
+       
       } catch (error) {
         console.log(error);
       }
