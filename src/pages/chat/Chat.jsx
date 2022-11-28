@@ -15,41 +15,45 @@ import NavIcons from "../../components/NavBarIcons/NavBarIcons";
 function Chat() {
   const socket = useRef();
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser, "current");
+
   const [chats, setChats] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
   // Get the chat in chat section
+
   useEffect(() => {
     const getChats = async () => {
       try {
-        const friends=  await makeRequest.get("/users/friends/" + currentUser._id);
+        // const friends = await makeRequest.get(
+        //   "/users/friends/" + currentUser._id
+        // );
 
         const conversation = await makeRequest.get(
           `/conversation/${currentUser._id}`
         );
-
-        console.log("frineds ",conversation);
-
-        friends.data.filter(async(data) => {
-          console.log("data is ",data._id)
-          conversation.data.map(async (result) =>{
-            if(!result.members.includes(data._id)){
-              await makeRequest.post(
-                `/conversation/`,{senderId:currentUser._id,receiverId:data._id}
-              ).then(async()=>{
-               const allusers= await makeRequest.get(
-                  `/conversation/${currentUser._id}`
-                )
-                setChats(allusers.data);
-            })
-
-          }
-        })
-      })
+       setChats(conversation.data);
+      //   friends.data.map((e)=>{
+      //     let login=false
+      //   conversation.data.filter((l)=>{
        
+      //     if(l.members.includes(e._id));{
+      //       login=true
+      //     }
+      //  })
+      //  if(!login){
+      //   console.log(e._id,'does not have a conversation');
+      //   login=false
+      //  }else{
+      //   console.log('i am here');
+      //  }})
+
+
+ 
+
+
+        
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +69,7 @@ function Chat() {
       setOnlineUsers(
         users
         // currentUser.following.filter((f) => {users.some((u) => u.userId === f)})
-      );
+      );
     });
   }, [currentUser]);
   const checkOnlineStatus = (chat) => {
@@ -102,16 +106,16 @@ function Chat() {
 
   return (
     <>
-          <div className="blur" style={{ top: "-18%", right: "0" }}></div>
+      <div className="blur" style={{ top: "-18%", right: "0" }}></div>
       <div className="blur" style={{ top: "36%", left: "-8rem" }}></div>
-    <div className="Chat">
-      {/* Left Side */}
-      <div className="Left-side-chat">
-        <LogoSearch />
-        
-        <div className="Chat-container">
-          <h2>Online Users</h2>
-        {/* <div className="Chat-list">
+      <div className="Chat">
+        {/* Left Side */}
+        <div className="Left-side-chat">
+          <LogoSearch />
+
+          <div className="Chat-container">
+            {/* <h2>Online Users</h2> */}
+            {/* <div className="Chat-list">
           {console.log(onlineUsers,"online users here")}
         {onlineUsers.map((chat) => (
               // <div onClick={() => setCurrentChat(chat)}>
@@ -125,32 +129,31 @@ function Chat() {
             ))}
             </div> */}
 
-          <h2>Chats</h2>
-          <div className="Chat-list">
-            </div>
-          <div className="Chat-list">
-            {chats.map((chat) => (
-              <div onClick={() => setCurrentChat(chat)}>
-                <Conversation
-                  data={chat}
-                  currentUserId={currentUser._id}
-                  online={checkOnlineStatus(chat)}
-                  // key={chat._id}
-                />
-              </div>
-            ))}
+            <h2>Chats</h2>
+            <div className="Chat-list"></div>
+            <div className="Chat-list">
+              {chats.map((chat) => (
+                <div onClick={() => setCurrentChat(chat)}>
+                  <Conversation
+                    data={chat}
+                    currentUserId={currentUser._id}
+                    online={checkOnlineStatus(chat)}
+                    // key={chat._id}
+                  />
+                </div>
+              ))}
 
-            <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Right Side */}
+        {/* Right Side */}
 
-      <div className="Right-side-chat">
-        <div style={{ width: "20rem", alignSelf: "flex-end" }}>
-          {/* <div className="navIcons"> */}
-          {/* <Link to="/">
+        <div className="Right-side-chat">
+          <div style={{ width: "20rem", alignSelf: "flex-end" }}>
+            {/* <div className="navIcons"> */}
+            {/* <Link to="/">
             <HomeOutlinedIcon  style={{color:"black"}} />
           </Link>
 
@@ -158,18 +161,18 @@ function Chat() {
           <Link to="/chat">
             <ChatBubbleOutlineOutlinedIcon  style={{color:"black"}} />
           </Link> */}
-          <NavIcons/>
-        </div>
+            <NavIcons />
+          </div>
 
-        <ChatBox
-          chat={currentChat}
-          currentUser={currentUser._id}
-          setSendMessage={setSendMessage}
-          receivedMessage={receivedMessage}
-        />
+          <ChatBox
+            chat={currentChat}
+            currentUser={currentUser._id}
+            setSendMessage={setSendMessage}
+            receivedMessage={receivedMessage}
+          />
+        </div>
       </div>
-    </div>
-    {/* // </div> */}
+      {/* // </div> */}
     </>
   );
 }

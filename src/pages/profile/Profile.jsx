@@ -27,6 +27,7 @@ const Profile = () => {
   const userId = id;
   useEffect(()=>{
     queryClient.invalidateQueries(["user"]);
+  
   },[userId])
    const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("users/" + userId).then((res) => {
@@ -42,10 +43,28 @@ const Profile = () => {
  
 async function unfollow(){
   await makeRequest.put(`users/${userId}/unfollow`);
+refetchuser(currentUser._id)
   queryClient.invalidateQueries(["user"]);
 }
 async  function follow(){
   await makeRequest.put(`users/${userId}/follow`);
+  refetchuser(currentUser._id)
+  console.log('i am here');
+  await makeRequest.get(`/conversation/find/${currentUser._id}/${userId}`)
+  .then(async (response) => {
+    console.log('i am here1');
+    if (response.data.message) {
+      console.log('i am here2');
+      await makeRequest
+        .post(`/conversation/`, {
+          senderId: currentUser._id,
+          receiverId: userId,
+        })
+        .then(async () => {
+          console.log('i am here3');
+        console.log('conversation created');
+        });
+      }})
   queryClient.invalidateQueries(["user"]);
 }
   

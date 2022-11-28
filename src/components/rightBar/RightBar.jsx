@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const RightBar = () => {
   const queryClient = useQueryClient();
 
-  const {currentUser} = useContext(AuthContext)
+  const {currentUser,refetchuser} = useContext(AuthContext)
   const [suggesteduser, setSuggestedUser] = useState([])
   const [status, setStatus] = useState(false)
   useEffect(()=>{
@@ -20,7 +20,23 @@ const RightBar = () => {
 console.log(suggesteduser,'suggested user');
   async  function handlefollow(id){
     await makeRequest.put(`users/${id}/follow`);
+    refetchuser(currentUser._id)
     setStatus(!status)
+    await makeRequest.get(`/conversation/find/${currentUser._id}/${id}`)
+    .then(async (response) => {
+      console.log('i am here1');
+      if (response.data.message) {
+        console.log('i am here2');
+        await makeRequest
+          .post(`/conversation/`, {
+            senderId: currentUser._id,
+            receiverId: id,
+          })
+          .then(async () => {
+            console.log('i am here3');
+          console.log('conversation created');
+          });
+        }})
     queryClient.invalidateQueries(["posts"]);
   }
 
@@ -37,7 +53,6 @@ console.log(suggesteduser,'suggested user');
               >
             <div className="userInfo">
               <img
-            
                 src={sugestUser.profilePic}
                 alt=""
               />
