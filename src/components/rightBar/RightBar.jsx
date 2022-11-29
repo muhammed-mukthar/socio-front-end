@@ -4,6 +4,7 @@ import { useContext} from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
 import { makeRequest } from "../../axios/axios";
+import moment from "moment";
 import { Link } from "react-router-dom";
 const RightBar = () => {
   const queryClient = useQueryClient();
@@ -11,12 +12,21 @@ const RightBar = () => {
   const {currentUser,refetchuser} = useContext(AuthContext)
   const [suggesteduser, setSuggestedUser] = useState([])
   const [status, setStatus] = useState(false)
+  const [notification, setNotification] = useState([]);
+  const [user, setUser] = useState({});
   useEffect(()=>{
     makeRequest.get(`users/suggestedusers`).then((res)=>{
       console.log(res.data,'data fhhsjkdahfsdhjkskfdhhjfsdl');
       setSuggestedUser(res.data)
     }).catch((err)=>{console.log(err);}) 
   },[status,currentUser])
+
+  useEffect(() => {
+    makeRequest.get(`users/${currentUser._id}`).then((result) => {
+      setNotification(result.data.notif)
+      setUser(result.data);
+    });
+  }, []);
 console.log(suggesteduser,'suggested user');
   async  function handlefollow(id){
     await makeRequest.put(`users/${id}/follow`);
@@ -46,7 +56,7 @@ console.log(suggesteduser,'suggested user');
       <div className="container">
         <div className="item follow">
           <span>Suggestions For You</span>
-          {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser._id}).map( (sugestUser)=>{return  <div className="user">
+          {suggesteduser.filter(sugestUser=>{return sugestUser._id!=currentUser._id}).map( (sugestUser)=>{return  <div key={sugestUser._id} className="user">
           <Link
                 to={`/profile/${sugestUser._id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -72,167 +82,32 @@ console.log(suggesteduser,'suggested user');
         </div>
         <div className="item">
           <span>Latest Activities</span>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> changed their cover picture
-              </p>
+          {notification ? (
+            notification.map((notif,index) => (
+              <div key={index} className="user">
+                <div className="userInfo">
+                  <Link
+                    to={`/profile/${notif.user}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <img src={notif.profile} alt="" />
+                  </Link>
+
+                  <p>{notif.message}</p>
+                </div>
+                <span> {moment(notif.createdAt).fromNow()}</span>
+              </div>
+            ))
+          ) : (
+            <div className="user">
+              <div className="userInfo">
+                <img src={user.profilePic} alt="" />
+                <p>welcome to socio</p>
+              </div>
+              <span> recently</span>
             </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> changed their cover picture
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> changed their cover picture
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <p>
-                <span>Jane Doe</span> changed their cover picture
-              </p>
-            </div>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="item">
-          <span>Online Friends</span>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
-          <div className="user">
-            <div className="userInfo">
-              <img
-                src="https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-              <div className="online" />
-              <span>Jane Doe</span>
-            </div>
-          </div>
+          )}
+      
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./notif.scss";
+import "./followerslist.scss";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
@@ -7,7 +7,7 @@ import { Report } from "@mui/icons-material";
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { Result } from "postcss";
-function Notif() {
+function followersList() {
   const { currentUser } = useContext(AuthContext);
   const [notification, setNotification] = useState([]);
   const [user, setUser] = useState({});
@@ -201,4 +201,4 @@ function Notif() {
   );
 }
 
-export default Notif;
+export default followersList;

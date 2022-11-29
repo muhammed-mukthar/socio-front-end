@@ -21,6 +21,7 @@ import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import PagesTail from "./pages/pagestail/PagesTail";
 import Chat from "./pages/chat/chat";
+import FollowingList from "./components/followinglist/FollowingList";
 function App() {
   const {currentUser} =useContext(AuthContext)
 
@@ -91,6 +92,9 @@ function App() {
         },, {
           path: "/news",
           element: <NewsPage/>,
+        }, {
+          path: "/following",
+          element: <FollowingList/>,
         }
       ],
     },
