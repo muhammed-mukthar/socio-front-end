@@ -5,10 +5,11 @@ import { makeRequest } from "../../axios/axios";
 const Posts = ({userId}) => {
 
   const { isLoading, error, data } = useQuery(["posts"], () =>
+
   makeRequest.get(userId ?  `posts/profile/${userId}` : "posts/timeline/all").then((res) => {
     console.log(res,'response');
     const sortedPosts = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-
+    console.log('i am inside')
     return sortedPosts;
 
   })

@@ -84,6 +84,7 @@ const Post = ({ post }) => {
       .catch((err) => {
         console.log(err);
       });
+      console.log(post.likes,currentUser._id);
     post.likes.includes(currentUser._id) ? setLiked(true) : setLiked(false);
   }, [post]);
   const handleDelete = () => {
@@ -168,7 +169,13 @@ const Post = ({ post }) => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
   }
+   function handlelike(id) {
+     makeRequest.put(`/posts/${id}/like`).then(()=>{
+      
+      queryClient.invalidateQueries(["posts"]);
 
+    })
+  }
   function closeModal() {
     setIsOpen(false);
   }
@@ -189,10 +196,7 @@ const Post = ({ post }) => {
   //   queryClient.invalidateQueries(["user"]);
   //   queryClient.invalidateQueries(["posts"]);
   // }
-  async function handlelike(id) {
-    await makeRequest.put(`/posts/${id}/like`);
-    queryClient.invalidateQueries(["posts"]);
-  }
+
   // let followed=false
   // if (Array.isArray(user.followers)) {
   //    followed = user.followers.includes(currentUser._id);
@@ -338,7 +342,7 @@ const Post = ({ post }) => {
                 variant="contained"
                 endIcon={<SendIcon />}
                 className="sendButton"
-                onClick={handleReport}
+                onClick={(()=>{handleReport()})}
               >
                 Send
               </Button>

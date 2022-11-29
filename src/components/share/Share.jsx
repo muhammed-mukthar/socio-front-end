@@ -89,13 +89,14 @@ const Share = () => {
             <input
               type="file"
               id="file"
+              accept=".png, .jpeg, .jpg"
               style={{ display: "none" }}
               onChange={(e) => setFile(e.target.files[0])}
              
             />
             <label htmlFor="file">
               <div className="item">
-                <img src={Image} alt="" />
+                <img  src={Image} alt="" />
                 <span>Add Image</span>
               </div>
             </label>

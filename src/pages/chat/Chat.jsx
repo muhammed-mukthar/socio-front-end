@@ -113,7 +113,9 @@ function Chat() {
         <div className="Left-side-chat">
           <LogoSearch />
 
-          <div className="Chat-container">
+          <div className="Chat-container" style={{  height: "100vh",
+  height: "80vh",
+  overflowY: "auto"}}>
             {/* <h2>Online Users</h2> */}
             {/* <div className="Chat-list">
           {console.log(onlineUsers,"online users here")}

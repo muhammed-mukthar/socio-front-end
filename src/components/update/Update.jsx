@@ -151,6 +151,7 @@ const Update = ({ setOpenUpdate, user }) => {
             <input
               type="file"
               id="cover"
+              accept=".png, .jpeg, .jpg"
               style={{ display: "none" }}
               onChange={(e) => setCover(e.target.files[0])}
             />
@@ -171,6 +172,7 @@ const Update = ({ setOpenUpdate, user }) => {
             <input
               type="file"
               id="profile"
+              accept=".png, .jpeg, .jpg"
               style={{ display: "none" }}
               onChange={(e) => setProfile(e.target.files[0])}
             />
