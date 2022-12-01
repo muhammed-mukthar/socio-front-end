@@ -42,10 +42,14 @@ const Comments = ({ post, user }) => {
   }
 
   async function postComment(postid) {
+    if(newComment.comments.trim().length >2 && newComment.comments!=null){
+
+    
     await makeRequest.put(`/posts/${postid}/comment`, newComment);
     Setcomment("");
     queryClient.invalidateQueries(["posts"]);
   }
+}
 
   return (
     <div className="comments">

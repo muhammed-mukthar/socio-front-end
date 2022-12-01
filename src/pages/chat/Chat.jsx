@@ -114,7 +114,7 @@ function Chat() {
           <LogoSearch />
 
           <div className="Chat-container" style={{  height: "100vh",
-  height: "80vh",
+ 
   overflowY: "auto"}}>
             {/* <h2>Online Users</h2> */}
             {/* <div className="Chat-list">
