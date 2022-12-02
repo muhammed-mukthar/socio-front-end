@@ -1,5 +1,6 @@
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import io from "socket.io-client";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -15,7 +16,7 @@ import Profile from "./pages/profile/Profile";
 import Notification from './pages/notification/Notification'
 import NewsPage from './pages/NewsPage/NewsPage'
 import "./style.scss";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
@@ -23,6 +24,13 @@ import PagesTail from "./pages/pagestail/PagesTail";
 import Chat from "./pages/chat/chat";
 import FollowingList from "./components/followinglist/FollowingList";
 function App() {
+  useEffect(()=>{
+ const   socket = io("http://localhost:8800");
+    console.log(socket);
+  },[])
+
+
+  
   const {currentUser} =useContext(AuthContext)
 
   const { darkMode } = useContext(DarkModeContext);

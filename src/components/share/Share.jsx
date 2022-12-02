@@ -5,10 +5,10 @@ import Friend from "../../assets/friend.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+// import { ToastContainer, toast } from 'react-toastify';
 import { makeRequest } from "../../axios/axios";
 import axios from "axios";
-const Share = () => {
+const Share = ({toast}) => {
   const queryClient = useQueryClient();
   const [file, setFile] = useState(null);
 
@@ -16,6 +16,7 @@ const Share = () => {
   const { currentUser } = useContext(AuthContext);
   const handleClick = async (e) => {
     e.preventDefault();
+    if(file ||desc){
     var formData = new FormData();
     if (file) {
       formData.append("image", file);
@@ -61,6 +62,18 @@ const Share = () => {
        
       
     }
+  }else{
+    toast.error('No content has been added', {
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  }
   };
 
   return (
