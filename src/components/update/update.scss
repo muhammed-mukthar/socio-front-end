@@ -16,8 +16,9 @@
     
 
     .wrapper {
-      margin: auto;
-      width: 40%;
+      margin: 30px;
+      width: 50%;
+      overflow: scroll;
       height: 70%;
       background-color: themed("bg");
       padding: 50px;
@@ -31,6 +32,10 @@
       position: relative;
       
       @include mobile {
+        width: 100%;
+        height: 100%;
+      }
+      @include tablet{
         width: 100%;
         height: 100%;
       }

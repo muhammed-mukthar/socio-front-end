@@ -70,7 +70,10 @@ async  function follow(){
   
 console.log(data,'data here');
   return (
-    <div className="profile">
+   
+ 
+     
+     <div className="profile">
       {isLoading ? (
         "loading"
       ) : (
@@ -96,9 +99,9 @@ console.log(data,'data here');
               
               </div>
               <div className="center">
-         
+    
                 <span>{data?.name}</span>
-                {userId === currentUser._id ?<button onClick={() => setOpenUpdate(true)}>update</button>
+                {userId === currentUser._id ?<button  onClick={() => setOpenUpdate(true)}>update</button>
                 :
                 <span >
                         
@@ -108,11 +111,18 @@ console.log(data,'data here');
               
               </div>
               <div className="right">
-                <EmailOutlinedIcon />
-                <MoreVertIcon />
+              <div className="item">
+                    
+                    <span>followers:{data.followers.length}</span>
+                  </div>
+                  <div className="item">
+                 
+                    <span>following:{data.following.length}</span>
+                  </div>
+                
               </div>
             </div>
-            <Posts userId={userId} key={userId}/>
+            {userId === currentUser._id||data?.followers.includes(currentUser._id)?<Posts userId={userId} key={userId}/>:"follow user to view the post"}
           </div>
         </>
       )}

@@ -59,11 +59,10 @@ const Post = ({ post }) => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
   }
-
+  
   function closeModal() {
     setIsOpen(false);
   }
-
   const deleteMutation = useMutation(
     (postId) => {
       return makeRequest.delete("/posts/" + postId);
@@ -102,8 +101,9 @@ const Post = ({ post }) => {
        deleteMutation.mutate(post._id);
       }
     })
-    
   }
+
+  
   const handleUpdate = () => {
     // e.preventDefault()
     if (desc) {
@@ -169,10 +169,12 @@ const Post = ({ post }) => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
   }
-   function handlelike(id) {
-     makeRequest.put(`/posts/${id}/like`).then(()=>{
+   function handlelike() {
+     makeRequest.put(`/posts/${post._id}/like`).then(()=>{
       
       queryClient.invalidateQueries(["posts"]);
+
+
 
     })
   }
@@ -349,12 +351,12 @@ const Post = ({ post }) => {
             </FormControl>
           </Modal>
         </div>
-        <div className="content">
+        <div className="content" onDoubleClick={ handlelike}>
           <p>{post.desc}</p>
           <img src={post.img} alt="" />
         </div>
         <div className="info">
-          <div className="item" onClick={() => handlelike(post._id)}>
+          <div className="item" onClick={ handlelike}>
             {liked ? (
               <FavoriteOutlinedIcon style={{ color: "red" }} />
             ) : (

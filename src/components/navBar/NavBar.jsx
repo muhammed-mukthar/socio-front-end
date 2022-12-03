@@ -89,7 +89,7 @@ const Navbar = () => {
         >
           <NotificationsOutlinedIcon />
         </Link>
-
+        <SearchOutlinedIcon/>
         <Link
           to={`/profile/${currentUser._id}`}
           style={{ textDecoration: "none", color: "inherit" }}

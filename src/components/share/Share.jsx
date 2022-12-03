@@ -11,7 +11,6 @@ import axios from "axios";
 const Share = ({toast}) => {
   const queryClient = useQueryClient();
   const [file, setFile] = useState(null);
-
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
   const handleClick = async (e) => {

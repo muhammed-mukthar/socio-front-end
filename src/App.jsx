@@ -23,6 +23,7 @@ import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import PagesTail from "./pages/pagestail/PagesTail";
 import Chat from "./pages/chat/chat";
 import FollowingList from "./components/followinglist/FollowingList";
+import OtpLogin from "./components/otplogin/OtpLogin";
 function App() {
   useEffect(()=>{
  const   socket = io("http://localhost:8800");
@@ -109,6 +110,10 @@ function App() {
     {
       path: "/login",
       element:currentUser?<Navigate to="/" />:<Login />,
+    },
+    {
+      path: "/otp",
+      element:currentUser?<Navigate to="/" />:<OtpLogin/>,
     },
     {
       path: "/register",
