@@ -12,14 +12,42 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import Swal from 'sweetalert2'
 
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
+import { makeRequest } from "../../axios/axios";
 
 const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser,setCurrentUser } = useContext(AuthContext);
+
   const navigate = useNavigate()
+
+  
+  const [userData, setUserData] = useState("")
+  const [searchWord, setSearchWord]=useState("")
+  const [filteredData, setFilteredData] = useState([]);
+
+
+  // useEffect(() => {
+  //   makeRequest.get(`/users/filteruser`)
+  //     .then(({ data }) => setUserData(data))
+  //     .catch((error) => console.log(error))
+  // }, [])
+  const handleChange = async(e) => {
+    
+    const searchWord = e.target.value
+    setSearchWord(searchWord)
+    makeRequest.post(`/users/filteruser`,{search:searchWord})
+    .then(async({ data }) => {
+    // .catch((error) => console.log(error))
+    // .then(async()=>{
+      console.log(data);
+      data && setFilteredData(data);
+      console.log(filteredData,'filter data');
+  })
+  
+  };
   const handleLogout = () => {
     Swal.fire({
       title: 'Do you want to logout?',
@@ -90,6 +118,21 @@ const Navbar = () => {
           <NotificationsOutlinedIcon />
         </Link>
         <SearchOutlinedIcon/>
+        <input type="text" id="search-navbar" value={searchWord} onChange={handleChange} placeholder="Find people..." />
+        {searchWord && <div className='absolute top-[-11rem] bg-gray-300 md:w-4/12  rounded-2xl mt-56'>
+             <ul className="relative" >
+              { filteredData.length >0?
+                filteredData.map((user) => (
+                    <Link to={`/profile/${user._id}`} onClick={()=> setSearchWord('')} key={user._id} className='flex flex-wrap gap-2 items-center p-3 hover:bg-gray-200 border-b border-gray-200'>
+                    <img src={user?.profilePic} alt={user?.name} className="w-10 h-10 rounded-full object-cover" />
+                     <p>{user?.name}</p> 
+                     </Link>
+                ))
+                : 
+                  <li className='p-3 hover:bg-gray-300 border-b rounded-b-lg border-gray-200'>No results found</li>
+                }
+                </ul>
+            </div>}
         <Link
           to={`/profile/${currentUser._id}`}
           style={{ textDecoration: "none", color: "inherit" }}

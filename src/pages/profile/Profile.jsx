@@ -21,7 +21,7 @@ import Swal from "sweetalert2";
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser, refetchuser, setCurrentUser } = useContext(AuthContext);
-
+  const [filteredData, setFilteredData] = useState([]);
   const queryClient = useQueryClient();
 
   const { id } = useParams();
