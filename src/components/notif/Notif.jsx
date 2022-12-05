@@ -35,6 +35,9 @@ function Notif() {
                   </Link>
 
                   <p>{notif.message}</p>
+                  {notif.postPic?
+                    <img src={notif.postPic} alt="" />
+                  :""}
                 </div>
                 <span> {moment(notif.createdAt).fromNow()}</span>
               </div>

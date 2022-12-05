@@ -83,15 +83,15 @@ const scroll=useRef()
             {/* chat-header */}
             <div className="chat-header">
               <div className="follower">
-                <div >
+                <div className="userdetails" >
                   <img
                     src={userData?.profilePic}
                     alt="Profile"
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
-                  <div className="name" style={{ fontSize: "0.9rem" }}>
-                    <span>{userData?.name}</span>
+                  <div className="" style={{ fontSize: "20px",marginTop:"10px" }}>
+                    <span style={{fontWeight:"600"}}>{userData?.name}</span>
                   </div>
                 </div>
               </div>
@@ -125,7 +125,7 @@ const scroll=useRef()
             <div className="chat-sender">
               <div onClick={() => imageRef.current.click()}>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
-              <div className="send-button button" onClick={handleSend}>
+              <div style={{padding:"20px"}} className="send-button button" onClick={handleSend}>
                 Send
               </div>
               <input

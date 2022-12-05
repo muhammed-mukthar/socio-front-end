@@ -118,25 +118,7 @@ const Post = ({ post }) => {
   };
 
   const handleReport = () => {
-    // e.preventDefault()
-    // if (report=="other"&&desc.trim().length!==0&&desc!=null) {
-    //   console.log("Entry test");
-    //   makeRequest.put(`posts/${post._id}/report`, { reason:desc }).then((res) => {
-    //     console.log(res);
-    //     Swal.fire({
-    //       title: 'Reported!',
-    //       text: 'Thanks for reporting',
-    //       icon: 'success',
-    //       confirmButtonText: 'ok'
-    //     })
-    //     closeModal()
-    //     setDesc("")
-    //     setMenuOpen(false)
-    //     setErr(null)
-    //   }).catch((err)=>{
-    //     setErr(err.response.data)
-    //   })
-    // } else if(report!=="other") {
+
     makeRequest
       .put(`posts/${post._id}/report`, { reason: report })
       .then((res) => {
@@ -187,23 +169,8 @@ const Post = ({ post }) => {
     }
   };
 
-  // //TEMPORARY
-  // async function unfollow() {
-  //   await makeRequest.put(`users/${post.userId}/unfollow`);
-  //   await queryClient.invalidateQueries(["user"]);
-  //   await queryClient.invalidateQueries(["posts"]);
-  // }
-  // async function follow() {
-  //   await makeRequest.put(`users/${post.userId}/follow`);
-  //   queryClient.invalidateQueries(["user"]);
-  //   queryClient.invalidateQueries(["posts"]);
-  // }
-
-  // let followed=false
-  // if (Array.isArray(user.followers)) {
-  //    followed = user.followers.includes(currentUser._id);
-  //   console.log(followed,'hhjhjhjh');
-  // }
+  
+  console.log(user.name)
   return (
     <div key={post._id} className="post">
       <div className="container">
@@ -221,12 +188,10 @@ const Post = ({ post }) => {
                   to={`/profile/${post.userId}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  <span className="name">{user.name}</span>{" "}
+                 
+                  <span className="names">{user.name}</span>{" "}
                 </Link>
-                {/* <span className="follow">
-                  {console.log(user.followers?.includes(currentUser._id),'user followers',user.followers,'curre')}
-                { post.userId != currentUser._id ? user.followers?.includes(currentUser._id)?<button onClick={unfollow}>following</button>:<button onClick={()=>{follow()}}>follow</button>:""}
-                  </span> */}
+              
               </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>

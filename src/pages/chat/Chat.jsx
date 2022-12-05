@@ -12,10 +12,11 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import NavIcons from "../../components/NavBarIcons/NavBarIcons";
+import Swal from "sweetalert2";
 function Chat() {
   const socket = useRef();
-  const { currentUser } = useContext(AuthContext);
-
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const [err, setErr] = useState("");
   const [chats, setChats] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -26,36 +27,23 @@ function Chat() {
   useEffect(() => {
     const getChats = async () => {
       try {
-        // const friends = await makeRequest.get(
-        //   "/users/friends/" + currentUser._id
-        // );
-
         const conversation = await makeRequest.get(
           `/conversation/${currentUser._id}`
         );
-       setChats(conversation.data);
-      //   friends.data.map((e)=>{
-      //     let login=false
-      //   conversation.data.filter((l)=>{
-       
-      //     if(l.members.includes(e._id));{
-      //       login=true
-      //     }
-      //  })
-      //  if(!login){
-      //   console.log(e._id,'does not have a conversation');
-      //   login=false
-      //  }else{
-      //   console.log('i am here');
-      //  }})
-
-
- 
-
-
-        
+        setChats(conversation.data);
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: "Somethin happened please re-login",
+          icon: "error",
+          confirmButtonText: "ok",
+        }).then(() => {
+          localStorage.removeItem("user");
+          localStorage.removeItem("authentication");
+
+          setCurrentUser(false);
+          navigate("/login");
+        });
       }
     };
     getChats();
@@ -73,19 +61,12 @@ function Chat() {
     });
   }, [currentUser]);
   const checkOnlineStatus = (chat) => {
-    console.log(currentUser, "current user");
-    console.log(chat, "chat is here bro");
     const chatMembers = chat.members.find((member) => {
       return member !== currentUser._id ? member : "";
-      console.log(member !== currentUser._id, "jfsdhjshjkhfsd");
     });
-    console.log(chatMembers, "chat members here guys");
     const online = onlineUsers.find((user) => {
       return user.userId == chatMembers;
-
-      console.log(user, "user here fjdjhksahkjfshkdf");
     });
-    console.log(online, chatMembers, onlineUsers, "log here online");
     return online ? true : false;
   };
 
@@ -99,7 +80,6 @@ function Chat() {
   // Get the message from socket server
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-      console.log(data);
       setReceivedMessage(data);
     });
   }, []);
@@ -111,13 +91,22 @@ function Chat() {
       <div className="Chat">
         {/* Left Side */}
         <div className="Left-side-chat">
-          <LogoSearch />
+          <div className="searchIcon">
+            {" "}
+            <LogoSearch />
+          </div>
 
-          <div className="Chat-container" style={{  height: "100vh",
- 
-  overflowY: "auto"}}>
-            <h2>Chats</h2>
-            <div className="Chat-list"></div>
+          <div
+            className="Chat-container"
+            style={{
+              height: "80vh",
+
+              overflowY: "auto",
+              backgroundColor: "#fff",
+            }}
+          >
+            <h2 className="title">Chats</h2>
+
             <div className="Chat-list">
               {chats.map((chat) => (
                 <div onClick={() => setCurrentChat(chat)}>
@@ -129,8 +118,6 @@ function Chat() {
                   />
                 </div>
               ))}
-
-              <div></div>
             </div>
           </div>
         </div>

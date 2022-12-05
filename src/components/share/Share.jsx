@@ -8,12 +8,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { ToastContainer, toast } from 'react-toastify';
 import { makeRequest } from "../../axios/axios";
 import axios from "axios";
+import Swal from 'sweetalert2'
 const Share = ({toast}) => {
   const queryClient = useQueryClient();
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,setCurrentUser } = useContext(AuthContext);
   const handleClick = async (e) => {
+    try{
+
+    
     e.preventDefault();
     if(file ||desc){
     var formData = new FormData();
@@ -73,6 +77,20 @@ const Share = ({toast}) => {
       theme: "colored",
       });
   }
+}catch(err){
+  Swal.fire({
+    title: "Error!",
+    text: "Somethin happened please re-login",
+    icon: "error",
+    confirmButtonText: "ok",
+  }).then(() => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("authentication");
+
+    setCurrentUser(false);
+    navigate("/login");
+  });
+}
   };
 
   return (

@@ -20,7 +20,6 @@ import { useContext, useEffect } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
-import PagesTail from "./pages/pagestail/PagesTail";
 import Chat from "./pages/chat/chat";
 import FollowingList from "./components/followinglist/FollowingList";
 import OtpLogin from "./components/otplogin/OtpLogin";
@@ -114,7 +113,7 @@ function App() {
     {
       path: "/otp",
       element:currentUser?<Navigate to="/" />:<OtpLogin/>,
-    },
+    }, 
     {
       path: "/register",
       element: currentUser?<Navigate to="/" />:<Register />,

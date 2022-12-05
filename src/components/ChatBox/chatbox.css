@@ -30,6 +30,7 @@
     align-items: center;
     justify-content: center;
     color: white;
+    padding: 10px;
     border: none;
     border-radius: 0.5rem;
     background: var(--buttonBg);
@@ -37,6 +38,7 @@
   }
   
   .button:hover {
+    padding: 10px;
     color: var(--orange);
     border: 2px solid var(--orange);
     cursor: pointer;
@@ -158,15 +160,16 @@
    .Chat {
       grid-template-columns: 16% auto;
     }
-     .follower.conversation>div>.name{
+     /* .follower.conversation>div>.name{
       display: none;
-     }
+     } */
   }
 
 
 
 .ChatBox-container {
-    background: var(--cardColor);
+    /* background: var(--cardColor); */
+    background-color: #fff;
     border-radius: 1rem;
     display: grid;
     grid-template-rows: 14vh 60vh 13vh;
@@ -247,4 +250,8 @@
 .chat-sender>div{
     height: 70%;
     padding: 0px 15px 0px 15px;
+}
+.userdetails{
+  display: flex;
+
 }

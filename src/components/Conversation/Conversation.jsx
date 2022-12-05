@@ -28,11 +28,13 @@ const Conversation=({data,currentUserId,online})=> {
     <div  >
       {online && <div className='online-dot'></div>}
         {/* <div className="online-dot"></div> */}
+        <div className="userdesc">
         <img src={userData?.profilePic} alt="Profile" className='followerImage' style={{ width: "50px", height: "50px" }} />
-        <div className="name" style={{fontSize: '0.8rem'}}>
-            <span>{userData?.name} </span>
+        <div className="name" >
+            <span style={{fontSize:"20px",fontWeight:"600"}}>{userData?.name} </span>
             {/* <span style={{color: online?"#51e200":""}}>{online? "Online" : "Offline"}</span> */}
-            <span  style={{color: online?"#51e200":""}}>{online?"online":"offline"}</span>
+            <span  style={{fontSize:"10px",color: online?"#51e200":""}}>{online?"online":"offline"}</span>
+          </div>
           </div>
     </div>
   </div>
