@@ -4,9 +4,12 @@ import axios from 'axios'
 
 const header=await JSON.parse(localStorage.getItem("authentication"))?{
     "authorization": "Bearer " + JSON.parse(localStorage.getItem("authentication")).accessToken,
-    "x-refresh":JSON.parse(localStorage.getItem("authentication")).refreshToken
+    "x-refresh":JSON.parse(localStorage.getItem("authentication")).refreshToken,
+    
+
   }:{
-    "authorization": "Bearer "
+  
+
   }
 export const makeRequest =  axios.create({
     baseURL:"http://localhost:5000/api/",

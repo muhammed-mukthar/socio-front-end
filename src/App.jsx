@@ -98,7 +98,7 @@ function App() {
         {
           path: "/notification",
           element: <Notification/> ,
-        },, {
+        }, {
           path: "/news",
           element: <NewsPage/>,
         }, {

@@ -116,21 +116,6 @@ function Chat() {
           <div className="Chat-container" style={{  height: "100vh",
  
   overflowY: "auto"}}>
-            {/* <h2>Online Users</h2> */}
-            {/* <div className="Chat-list">
-          {console.log(onlineUsers,"online users here")}
-        {onlineUsers.map((chat) => (
-              // <div onClick={() => setCurrentChat(chat)}>
-                <Conversation
-                  data={chat}
-                  currentUserId={currentUser._id}
-                  online={checkOnlineStatus(chat)}
-                  // key={chat._id}
-                />
-              // </div>
-            ))}
-            </div> */}
-
             <h2>Chats</h2>
             <div className="Chat-list"></div>
             <div className="Chat-list">
@@ -154,15 +139,6 @@ function Chat() {
 
         <div className="Right-side-chat">
           <div style={{ width: "20rem", alignSelf: "flex-end" }}>
-            {/* <div className="navIcons"> */}
-            {/* <Link to="/">
-            <HomeOutlinedIcon  style={{color:"black"}} />
-          </Link>
-
-          <NotificationsOutlinedIcon style={{color:"black"}}/>
-          <Link to="/chat">
-            <ChatBubbleOutlineOutlinedIcon  style={{color:"black"}} />
-          </Link> */}
             <NavIcons />
           </div>
 
