@@ -22,8 +22,8 @@ const RightBar = () => {
   },[status,currentUser])
 
   useEffect(() => {
-    makeRequest.get(`users/${currentUser._id}`).then((result) => {
-      setNotification(result.data.notif)
+    makeRequest.get(`notif/${currentUser._id}`).then((result) => {
+      setNotification(result.data)
       setUser(result.data);
     });
   }, []);
@@ -87,7 +87,7 @@ console.log(suggesteduser,'suggested user');
               <div key={index} className="user">
                 <div className="userInfo">
                   <Link
-                    to={`/profile/${notif.user}`}
+                    to={`/profile/${notif.sender}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <img src={notif.profile} alt="" />
@@ -101,7 +101,7 @@ console.log(suggesteduser,'suggested user');
           ) : (
             <div className="user">
               <div className="userInfo">
-                <img src={user.profilePic} alt="" />
+                <img src={user.profilePic?user.profilePic:"https://vectorified.com/images/default-profile-picture-icon-3.png"} alt="" />
                 <p>welcome to socio</p>
               </div>
               <span> recently</span>

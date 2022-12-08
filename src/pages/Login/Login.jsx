@@ -24,6 +24,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+   
+
     e.preventDefault();
     if(inputs.email.trim().length < 4 ){
       generateError("invalid email")

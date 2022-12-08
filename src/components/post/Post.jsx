@@ -59,7 +59,7 @@ const Post = ({ post }) => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
   }
-  
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -83,27 +83,26 @@ const Post = ({ post }) => {
       .catch((err) => {
         console.log(err);
       });
-      console.log(post.likes,currentUser._id);
+    console.log(post.likes, currentUser._id);
     post.likes.includes(currentUser._id) ? setLiked(true) : setLiked(false);
   }, [post]);
   const handleDelete = () => {
-   
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-       deleteMutation.mutate(post._id);
+        deleteMutation.mutate(post._id);
+        queryClient.invalidateQueries(["posts"]);
       }
-    })
-  }
+    });
+  };
 
-  
   const handleUpdate = () => {
     // e.preventDefault()
     if (desc) {
@@ -118,7 +117,6 @@ const Post = ({ post }) => {
   };
 
   const handleReport = () => {
-
     makeRequest
       .put(`posts/${post._id}/report`, { reason: report })
       .then((res) => {
@@ -151,14 +149,10 @@ const Post = ({ post }) => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "#f00";
   }
-   function handlelike() {
-     makeRequest.put(`/posts/${post._id}/like`).then(()=>{
-      
+  function handlelike() {
+    makeRequest.put(`/posts/${post._id}/like`).then(() => {
       queryClient.invalidateQueries(["posts"]);
-
-
-
-    })
+    });
   }
   function closeModal() {
     setIsOpen(false);
@@ -169,8 +163,7 @@ const Post = ({ post }) => {
     }
   };
 
-  
-  console.log(user.name)
+  console.log(user.name);
   return (
     <div key={post._id} className="post">
       <div className="container">
@@ -188,10 +181,8 @@ const Post = ({ post }) => {
                   to={`/profile/${post.userId}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                 
                   <span className="names">{user.name}</span>{" "}
                 </Link>
-              
               </span>
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
@@ -309,19 +300,21 @@ const Post = ({ post }) => {
                 variant="contained"
                 endIcon={<SendIcon />}
                 className="sendButton"
-                onClick={(()=>{handleReport()})}
+                onClick={() => {
+                  handleReport();
+                }}
               >
                 Send
               </Button>
             </FormControl>
           </Modal>
         </div>
-        <div className="content" onDoubleClick={ handlelike}>
+        <div className="content" onDoubleClick={handlelike}>
           <p>{post.desc}</p>
           <img src={post.img} alt="" />
         </div>
         <div className="info">
-          <div className="item" onClick={ handlelike}>
+          <div className="item" onClick={handlelike}>
             {liked ? (
               <FavoriteOutlinedIcon style={{ color: "red" }} />
             ) : (

@@ -10,9 +10,10 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import Swal from 'sweetalert2'
+import { useQuery } from '@tanstack/react-query';
 
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 import { makeRequest } from "../../axios/axios";
@@ -23,10 +24,25 @@ const Navbar = () => {
 
   const navigate = useNavigate()
 
-  
+
+  const [notifications, setNotifications] = useState([])
+  const [count, setCount] = useState(0)
   const [userData, setUserData] = useState("")
   const [searchWord, setSearchWord]=useState("")
   const [filteredData, setFilteredData] = useState([]);
+
+  const { isLoading, error, data } = useQuery(["notifications"], () => {
+    return makeRequest.get(`/notif/${currentUser._id}`)
+      .then(({ data }) => {
+        setNotifications(data)
+        return data;
+      }).catch((error) => console.log(error))
+  }
+  );
+  useEffect(() => {
+    notifications &&
+      setCount(notifications.filter(e => e.isVisited === false).length)
+  }, [notifications])
 
 
   // useEffect(() => {
@@ -115,7 +131,9 @@ const Navbar = () => {
           to="/notification"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <NotificationsOutlinedIcon />
+        
+          <NotificationsOutlinedIcon/>{count > 0 && <span className='-ml-2 absolute px-1.5 py-0.5 bg-red-600 text-white rounded-full text-xs'> {count}</span>}<span className='md:hidden pl-3 text-white'></span>
+
         </Link>
         <SearchOutlinedIcon/>
         <input type="text" id="search-navbar" value={searchWord} onChange={handleChange} placeholder="Find people..." />

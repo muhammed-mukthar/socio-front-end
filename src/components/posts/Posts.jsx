@@ -1,6 +1,8 @@
 import Post from "../post/Post";
 import "./posts.scss";
 import { useQuery } from "@tanstack/react-query";
+import CircularProgress from '@mui/material/CircularProgress';
+
 import { makeRequest } from "../../axios/axios";
 import Swal from 'sweetalert2'
 import { useContext } from "react";
@@ -45,7 +47,7 @@ const Posts = ({ userId }) => {
       {error ? (
         "no posts yet"
       ) : isLoading ? (
-        "loading..."
+        <CircularProgress color="secondary" />
       ) : data.length >= 1 ? (
         data
           ?.filter((post) => {

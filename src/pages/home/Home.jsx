@@ -20,7 +20,7 @@ pauseOnHover
 theme="colored"
 />
       <Share toast={toast}/>
-      <Posts/>
+      <Posts />
     </div>
   )
 }

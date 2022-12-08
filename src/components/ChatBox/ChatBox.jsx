@@ -7,7 +7,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-const scroll=useRef()
+  const scroll = useRef();
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
@@ -53,7 +53,7 @@ const scroll=useRef()
       senderId: currentUser,
       text: newMessage,
       chatId: chat._id,
-      conversationId:chat._id
+      conversationId: chat._id,
     };
     const receiverId = chat.members.find((id) => id !== currentUser);
     // send message to socket server
@@ -83,15 +83,18 @@ const scroll=useRef()
             {/* chat-header */}
             <div className="chat-header">
               <div className="follower">
-                <div className="userdetails" >
+                <div className="userdetails">
                   <img
                     src={userData?.profilePic}
                     alt="Profile"
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
-                  <div className="" style={{ fontSize: "20px",marginTop:"10px" }}>
-                    <span style={{fontWeight:"600"}}>{userData?.name}</span>
+                  <div
+                    className=""
+                    style={{ fontSize: "20px", marginTop: "10px" }}
+                  >
+                    <span style={{ fontWeight: "600" }}>{userData?.name}</span>
                   </div>
                 </div>
               </div>
@@ -106,26 +109,26 @@ const scroll=useRef()
             {/* chat-body */}
             <div className="chat-body">
               {messages.map((message) => (
-               
-                  <div
-                    ref={scroll}
-                    className={
-                      message.senderId === currentUser
-                        ? "message own"
-                        : "message"
-                    }
-                  >
-                    <span>{message.text}</span>{" "}
-                    <span>{format(message.createdAt)}</span>
-                  </div>
-              
+                <div
+                  ref={scroll}
+                  className={
+                    message.senderId === currentUser ? "message own" : "message"
+                  }
+                >
+                  <span>{message.text}</span>{" "}
+                  <span>{format(message.createdAt)}</span>
+                </div>
               ))}
             </div>
             {/* chat-sender */}
             <div className="chat-sender">
               <div onClick={() => imageRef.current.click()}>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
-              <div style={{padding:"20px"}} className="send-button button" onClick={handleSend}>
+              <div
+                style={{ padding: "20px" }}
+                className="send-button button"
+                onClick={handleSend}
+              >
                 Send
               </div>
               <input

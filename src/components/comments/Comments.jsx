@@ -48,6 +48,8 @@ const Comments = ({ post, user }) => {
     await makeRequest.put(`/posts/${postid}/comment`, newComment);
     Setcomment("");
     queryClient.invalidateQueries(["posts"]);
+  }else{
+    
   }
 }
 

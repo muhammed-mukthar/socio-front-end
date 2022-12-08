@@ -7,16 +7,41 @@ import { Report } from "@mui/icons-material";
 import moment from "moment";
 import { makeRequest } from "../../axios/axios";
 import { Result } from "postcss";
+import { useQueryClient } from "@tanstack/react-query";
 function Notif() {
   const { currentUser } = useContext(AuthContext);
   const [notification, setNotification] = useState([]);
   const [user, setUser] = useState({});
   useEffect(() => {
-    makeRequest.get(`users/${currentUser._id}`).then((result) => {
-      setNotification(result.data.notif);
+    
+  }, []);
+
+  const queryClient = useQueryClient()
+
+  const getNotifications = () => {
+    makeRequest.get(`notif/${currentUser._id}`).then((result) => {
+      setNotification(result.data);
       setUser(result.data);
     });
-  }, []);
+  }
+
+  useEffect(() => {
+      getNotifications()
+      const updateStatus = () => {
+          try {
+              makeRequest.put(`/notif/${currentUser._id}`, { isVisited: true })
+                  .then((response) => {
+                      console.log(response);
+                      queryClient.invalidateQueries({ queryKey: ['notifications'] })
+                  }).catch((error) => console.log(error))
+          } catch (error) {
+              console.log(error);
+          }
+      }
+      updateStatus()
+
+  }, [])
+
   console.log(notification, "notification here body");
   return (
     <div className="notif">
@@ -28,7 +53,7 @@ function Notif() {
               <div className="user">
                 <div className="userInfo">
                   <Link
-                    to={`/profile/${notif.user}`}
+                    to={`/profile/${notif.sender}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <img src={notif.profile} alt="" />

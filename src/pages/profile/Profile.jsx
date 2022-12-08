@@ -5,6 +5,7 @@ import "./profile.scss";
 // import PinterestIcon from "@mui/icons-material/Pinterest";
 // import TwitterIcon from "@mui/icons-material/Twitter";
 import PlaceIcon from "@mui/icons-material/Place";
+import CircularProgress from '@mui/material/CircularProgress';
 import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -17,11 +18,21 @@ import { AuthContext } from "../../context/authContext";
 import Update from "../../components/update/Update";
 import { useState } from "react";
 import Swal from "sweetalert2";
-
+import ListModal from "../../modals/ListModels";
+  const errorHandler = () => {
+  Swal.fire({
+     icon: 'error',
+     title: 'Oops...',
+     text: 'Something went wrong!',
+  })
+}
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser, refetchuser, setCurrentUser } = useContext(AuthContext);
   const [filteredData, setFilteredData] = useState([]);
+  const [listModal, setListModal] = useState(false)
+  const [list, setList] = useState('')
+  const [listData, setListData] = useState([])
   const queryClient = useQueryClient();
 
   const { id } = useParams();
@@ -29,11 +40,37 @@ const Profile = () => {
   useEffect(() => {
     queryClient.invalidateQueries(["user"]);
   }, [userId]);
+  
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("users/" + userId).then((res) => {
       return res.data;
     })
   );
+
+  useEffect(() => {
+    error && errorHandler()
+    setListModal(false)
+    setListData([])
+    // getUserPosts()
+}, [userId])
+useEffect(() => {
+  if (listModal) {
+      try {
+          if (list === 'Followers') {
+              makeRequest.get(`/users/followers/${userId}`)
+                  .then(({ data }) => {setListData(data)})
+                  .catch((error) => errorHandler())
+
+          } else if (list === 'Following') {
+              makeRequest.get(`/users/followings/${userId}`)
+                  .then(({ data }) => setListData(data))
+                  .catch((error) => errorHandler())
+          }
+      } catch (error) {
+          errorHandler()
+      }
+  }
+}, [listModal])
 
   async function unfollow() {
     try {
@@ -91,10 +128,50 @@ const Profile = () => {
     }
   }
 
+  const handleFollow=async(userId)=>{
+    try {
+      await makeRequest.put(`users/${userId}/unfollow`);
+      refetchuser(currentUser._id);
+      queryClient.invalidateQueries(["user"]);
+    } catch (err) {
+      
+        errorHandler()
+   
+    }
+  }
+  const handleUnfollow=async(userId)=> {
+    try {
+      await makeRequest.put(`users/${userId}/follow`);
+      refetchuser(currentUser._id);
+
+      await makeRequest
+        .get(`/conversation/find/${currentUser._id}/${userId}`)
+        .then(async (response) => {
+          if (response.data.message) {
+            await makeRequest
+              .post(`/conversation/`, {
+                senderId: currentUser._id,
+                receiverId: userId,
+              })
+              .then(async () => {
+                console.log("user conversation created");
+              });
+          }
+        });
+      queryClient.invalidateQueries(["user"]);
+    } catch (err) {
+        errorHandler()
+    }
+  }
+  const listModalProps = {
+    listModal, setListModal, listData, currentUser, handleFollow, handleUnfollow, list,errorHandler,refetchuser
+  }
+
+  
   return (
     <div className="profile">
       {isLoading ? (
-        "loading"
+        <CircularProgress color="secondary" />
       ) : (
         <>
           <div className="images">
@@ -136,10 +213,10 @@ const Profile = () => {
                 )}
               </div>
               <div className="right">
-                <div className="item">
+                <div className="item"  onClick={() => { setListModal(true); setList('Followers') }}>
                   <span>followers:{data.followers.length}</span>
                 </div>
-                <div className="item">
+                <div className="item"  onClick={() => { setListModal(true); setList('Following') }}>
                   <span>following:{data.following.length}</span>
                 </div>
               </div>
@@ -156,6 +233,7 @@ const Profile = () => {
       {openUpdate &&
         (console.log(openUpdate, "opened"),
         (<Update setOpenUpdate={setOpenUpdate} user={data} />))}
+           <ListModal {...listModalProps} />
     </div>
   );
 };

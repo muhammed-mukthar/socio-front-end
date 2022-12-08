@@ -24,11 +24,17 @@ const Register = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const pattern=/[A-Z,a-z]/
+    const numbermatch=/^[0-9]*$/
     e.preventDefault();
     if (inputs.email.trim().length < 4) {
       generateError("invalid email");
     } else if (inputs.name.trim().length < 4) {
       generateError("invalid name");
+    }else if(!pattern.test(inputs.name)){
+      generateError("invalid name");
+    }else if(!numbermatch.test(inputs.phone) ||inputs.phone.trim().length!=10){
+      generateError("invalid phone");
     } else if (inputs.password.trim().length < 4) {
       generateError("Invalid password");
     } else if (!regex.test(inputs.email)) {
