@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { makeRequest } from "../../axios/axios";
+import { fileRequest, makeRequest } from "../../axios/axios";
 import "./update.scss";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -35,20 +35,9 @@ const Update = ({ setOpenUpdate, user }) => {
     var formData = new FormData();
     if (profile) {
       formData.append("image", profile);
-      const profileConfig = await axios.post(
-        "http://localhost:5000/api/uploads/images",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization:
-              "Bearer " +
-              JSON.parse(localStorage.getItem("authentication")).accessToken,
-            "x-refresh": JSON.parse(localStorage.getItem("authentication"))
-              .refreshToken,
-          },
-        }
-      );
+      const profileConfig = await fileRequest.post(
+        "/uploads/images",
+        formData);
       if (profileConfig) {
         //    setProfilePic(profileConfig.data.location)
         // setProfilekey(profileConfig.data.key)
@@ -59,19 +48,9 @@ const Update = ({ setOpenUpdate, user }) => {
     }
     if (cover) {
       formData.append("image", cover);
-      const coverConfig = await axios.post(
-        "http://localhost:5000/api/uploads/images",
+      const coverConfig = await fileRequest.post(
+        "/uploads/images",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization:
-              "Bearer " +
-              JSON.parse(localStorage.getItem("authentication")).accessToken,
-            "x-refresh": JSON.parse(localStorage.getItem("authentication"))
-              .refreshToken,
-          },
-        }
       );
 
       if (coverConfig) {

@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./register.scss";
+import { makeRequest } from "../../axios/axios";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -41,8 +42,8 @@ const Register = () => {
       generateError("This is not a valid email format!");
     } else {
       try {
-        const isregister = await axios.post(
-          "http://localhost:5000/api/auth/register",
+        const isregister = await makeRequest.post(
+         "/auth/register",
           inputs
         );
         if (isregister.data.err) {

@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/authContext";
 
 const Posts = ({ userId }) => {
   console.log(userId, "user id in post");
-  const { currentUser,setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser } = useContext(AuthContext);
   const { isLoading, error, data } = useQuery(["posts"], () =>
     makeRequest
       .get(userId ? `posts/profile/${userId}` : "posts/timeline/all")
