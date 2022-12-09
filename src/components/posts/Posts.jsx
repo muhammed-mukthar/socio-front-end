@@ -53,7 +53,7 @@ const Posts = ({ userId }) => {
           ?.filter((post) => {
             return post != false;
           })
-          .map((post) => <Post post={post} key={post._id} />)
+          .map((post,index) => <Post post={post} key={index} />)
       ) : (
         <div style={{ height: "100vh" }}>No posts yet</div>
       )}

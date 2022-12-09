@@ -18,6 +18,7 @@ export const AuthContextProvider = ({ children }) => {
       return res.data;
     } else {
       const {accessToken,refreshToken,...others}=res.data
+      console.log(others, "others");
       setCurrentUser(others);
       localStorage.setItem(
         "authentication",
