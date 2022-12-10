@@ -25,10 +25,7 @@ import Register from "./pages/register/Register";
 import FollowingList from "./components/followinglist/FollowingList";
 import OtpLogin from "./components/otplogin/OtpLogin";
 function App() {
-  useEffect(()=>{
- const   socket = io("http://localhost:8800");
-    console.log(socket);
-  },[])
+ 
 
 
   

@@ -3,7 +3,7 @@ import LogoSearch from "../../components/LogoSearch/LogoSearch";
 import "./chat.css";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
-import { makeRequest } from "../../axios/axios";
+import { makeRequest, socketRequest } from "../../axios/axios";
 import Conversation from "../../components/Conversation/Conversation";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -51,7 +51,7 @@ function Chat() {
 
   // Connect to Socket.io
   useEffect(() => {
-    socket.current = io("ws://localhost:8800");
+    socket.current = io(socketRequest);
     socket.current.emit("new-user-add", currentUser._id);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(
