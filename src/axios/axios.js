@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const url="http://localhost:5000/api/"
+// const url="http://localhost:5000/api/"
+const url="https://socio-socialmedia-rest-api.onrender.com/api/"
 
 const header=  JSON.parse(localStorage.getItem("authentication"))?{
     "authorization": "Bearer " + JSON.parse(localStorage.getItem("authentication")).accessToken,

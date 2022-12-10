@@ -1,5 +1,4 @@
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
+
 import io from "socket.io-client";
 import {
   createBrowserRouter,
@@ -21,6 +20,8 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import Chat from "./pages/chat/chat";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 import FollowingList from "./components/followinglist/FollowingList";
 import OtpLogin from "./components/otplogin/OtpLogin";
 function App() {
