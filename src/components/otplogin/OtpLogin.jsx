@@ -66,6 +66,38 @@ function OtpLogin() {
       }
     }
   };
+
+  const resendotp=async (e) => {
+    e.preventDefault();
+    if (phone.trim().length < 4 || phone.trim().length > 10) {
+      generateError("phone number should have  10 numbers ");
+    } else {
+      try {
+        makeRequest.post("/auth/sendotp", { phno: phone }).then((res) => {
+          if (res.data.err) {
+            generateError(res.data.err);
+          } else {
+            setisphone(true);
+            setisotp(false);
+            generateSuccess(res.data);
+            setResend(false);
+            setTimeout(() => {
+              setResend(true);
+            }, "10000");
+           setMinutes(0)
+           setSeconds(10)
+
+            // navigate("/login");
+          }
+        });
+      } catch (err) {
+        generateError("error  happen");
+      }
+    }
+  };
+
+
+
   const verifyotp = async (e) => {
     e.preventDefault();
     if (phone.trim().length < 4 || phone.trim().length > 10) {
@@ -258,7 +290,7 @@ function OtpLogin() {
                
                 {resend ? (
                   <button
-                    onClick={sendotp}
+                    onClick={resendotp}
                     className="w-full hover:bg-blue-800 mt-3 bg-blue-500 py-3 text-center text-white"
                   >
                     {" "}

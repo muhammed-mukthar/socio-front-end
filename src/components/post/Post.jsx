@@ -25,7 +25,7 @@ import SendIcon from "@mui/icons-material/Send";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-
+import { SocketContext } from "../../context/socketContext";
 const Post = ({ post }) => {
   const customStyles = {
     content: {
@@ -40,7 +40,7 @@ const Post = ({ post }) => {
   const { currentUser } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
-
+  const socket = useContext(SocketContext);
   const [commentOpen, setCommentOpen] = useState(false);
   const [user, setUser] = useState({});
   const [menuOpen, setMenuOpen] = useState(false);
@@ -152,7 +152,13 @@ const Post = ({ post }) => {
   function handlelike() {
     makeRequest.put(`/posts/${post._id}/like`).then(() => {
       queryClient.invalidateQueries(["posts"]);
-      
+      if(post.userId !== currentUser._id){
+      socket.emit('send-notification', {
+        senderId:currentUser?._id,
+        recieverId:post.userId,
+        desc:`${currentUser?.name} Liked your post `
+      })
+    }
     });
   }
   function closeModal() {

@@ -19,6 +19,7 @@ import Update from "../../components/update/Update";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import ListModal from "../../modals/ListModels";
+import { SocketContext } from "../../context/socketContext";
   const errorHandler = () => {
   Swal.fire({
      icon: 'error',
@@ -34,7 +35,7 @@ const Profile = () => {
   const [list, setList] = useState('')
   const [listData, setListData] = useState([])
   const queryClient = useQueryClient();
-
+  const socket = useContext(SocketContext);
   const { id } = useParams();
   const userId = id;
   useEffect(() => {
@@ -112,6 +113,11 @@ useEffect(() => {
           }
         });
       queryClient.invalidateQueries(["user"]);
+      socket.emit('send-notification', {
+        senderId:currentUser?._id,
+        recieverId:userId,
+        desc:`${currentUser?.name} started following you `
+      })
     } catch (err) {
       Swal.fire({
         title: "Error!",

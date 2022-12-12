@@ -19,7 +19,7 @@ import { SocketContext } from "../../context/socketContext";
 function Chat() {
   // const socket = useRef();
   const socket = useContext(SocketContext);
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser,refetchuser } = useContext(AuthContext);
   const [err, setErr] = useState("");
   const [chats, setChats] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -41,7 +41,7 @@ function Chat() {
       });
     }, []);
 
-    
+
   // Get the chat in chat section
 
   useEffect(() => {

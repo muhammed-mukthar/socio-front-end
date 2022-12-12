@@ -34,8 +34,10 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if(currentUser.name){
+    if(currentUser?.name){
       socket.emit("new-user-add", currentUser._id)
+    }else{
+     
     }
     // setNotifications(JSON.parse(localStorage.getItem('count')));
   }, []);
