@@ -6,14 +6,11 @@ const Conversation=({data,currentUserId,online})=> {
     const [userData,setUserData]=useState(null)
     useEffect(() => {
         const userId=data.members.find((id)=>id!==currentUserId)
-        console.log(userId,'hallo guys');
       const getUserData=async()=>{
         try{
             const {data}=await makeRequest.get(`users/${userId}`)
             setUserData(data)
-            console.log(data,'hallo guys');
         }catch(err){
-            console.log(err);
         }
        
       }

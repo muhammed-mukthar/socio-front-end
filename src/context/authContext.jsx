@@ -1,13 +1,15 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { makeRequest } from "../axios/axios";
+import { SocketContext } from "./socketContext";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
-
+  const socket = useContext(SocketContext);
+  
   const login = async (inputs) => {
     const res = await makeRequest.post(
       `/auth/login`,
@@ -30,6 +32,13 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(others));
     }
   };
+
+  useEffect(() => {
+    if(currentUser.name){
+      socket.emit("new-user-add", currentUser._id)
+    }
+    // setNotifications(JSON.parse(localStorage.getItem('count')));
+  }, []);
 
   const refetchuser = async (userId) => {
     const res = await makeRequest.get(`users/${userId}`);

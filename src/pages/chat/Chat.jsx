@@ -13,8 +13,12 @@ import io from "socket.io-client";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import NavIcons from "../../components/NavBarIcons/NavBarIcons";
 import Swal from "sweetalert2";
+import { SocketContext } from "../../context/socketContext";
+
+
 function Chat() {
-  const socket = useRef();
+  // const socket = useRef();
+  const socket = useContext(SocketContext);
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const [err, setErr] = useState("");
   const [chats, setChats] = useState([]);
@@ -22,6 +26,22 @@ function Chat() {
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
+  const [sendNotification, setNotifications] = useState('');
+
+
+    // Connect to Socket.io
+    useEffect(() => {
+      // socket = io(socketRequest);
+      // socket.emit("new-user-add", currentUser._id);
+      socket.on("get-users", (users) => {
+        setOnlineUsers(
+          users
+          // currentUser.following.filter((f) => {users.some((u) => u.userId === f)})
+        );
+      });
+    }, []);
+
+    
   // Get the chat in chat section
 
   useEffect(() => {
@@ -49,17 +69,7 @@ function Chat() {
     getChats();
   }, [currentUser._id]);
 
-  // Connect to Socket.io
-  useEffect(() => {
-    socket.current = io(socketRequest);
-    socket.current.emit("new-user-add", currentUser._id);
-    socket.current.on("get-users", (users) => {
-      setOnlineUsers(
-        users
-        // currentUser.following.filter((f) => {users.some((u) => u.userId === f)})
-      );
-    });
-  }, [currentUser]);
+
   const checkOnlineStatus = (chat) => {
     const chatMembers = chat.members.find((member) => {
       return member !== currentUser._id ? member : "";
@@ -73,13 +83,20 @@ function Chat() {
   // Send Message to socket server
   useEffect(() => {
     if (sendMessage !== null) {
-      socket.current.emit("send-message", sendMessage);
+      socket.emit("send-message", sendMessage);
+    
     }
   }, [sendMessage]);
+  useEffect(() => {
+    if(sendNotification.recieverId !== currentUser._id){
+    console.log(sendNotification,'notification is sending');
+    socket.emit('send-notification',sendNotification)
+    }
+  },[sendNotification])
 
   // Get the message from socket server
   useEffect(() => {
-    socket.current.on("recieve-message", (data) => {
+    socket.on("recieve-message", (data) => {
       setReceivedMessage(data);
     });
   }, []);
@@ -131,9 +148,10 @@ function Chat() {
 
           <ChatBox
             chat={currentChat}
-            currentUser={currentUser._id}
+            currentUser={currentUser}
             setSendMessage={setSendMessage}
             receivedMessage={receivedMessage}
+            setNotifications={setNotifications}
           />
         </div>
       </div>

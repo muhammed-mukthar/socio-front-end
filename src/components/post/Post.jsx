@@ -152,6 +152,7 @@ const Post = ({ post }) => {
   function handlelike() {
     makeRequest.put(`/posts/${post._id}/like`).then(() => {
       queryClient.invalidateQueries(["posts"]);
+      
     });
   }
   function closeModal() {

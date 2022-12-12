@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { makeRequest } from "../../axios/axios";
 import "./chatbox.css";
+import { SocketContext } from '../../context/socketContext'
 import { format } from "timeago.js";
-function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
+function ChatBox({ chat, currentUser, setSendMessage, receivedMessage ,setNotifications}) {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const socket = useContext(SocketContext)
   const scroll = useRef();
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -14,7 +16,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
 
   // fetching data for header
   useEffect(() => {
-    const userId = chat?.members?.find((id) => id !== currentUser);
+    const userId = chat?.members?.find((id) => id !== currentUser?._id);
     const getUserData = async () => {
       try {
         const { data } = await makeRequest.get(`users/${userId}`);
@@ -31,7 +33,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data } = await makeRequest.get(`/message/${chat._id}`);
+        const { data } = await makeRequest.get(`/message/${chat?._id}`);
         setMessages(data);
       } catch (error) {
         console.log(error);
@@ -50,19 +52,27 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
   const handleSend = async (e) => {
     e.preventDefault();
     const message = {
-      senderId: currentUser,
+      senderId: currentUser?._id,
       text: newMessage,
-      chatId: chat._id,
-      conversationId: chat._id,
+      chatId: chat?._id,
+      conversationId: chat?._id,
     };
-    const receiverId = chat.members.find((id) => id !== currentUser);
+    const receiverId = chat.members.find((id) => id !== currentUser?._id);
     // send message to socket server
     setSendMessage({ ...message, receiverId });
+    setNotifications({
+      senderId:currentUser?._id,
+      recieverId:receiverId,
+      desc:`${currentUser?.name} sent a message`
+   })
     // send message to database
     try {
       const { data } = await makeRequest.post("/message", message);
       setMessages([...messages, data]);
       setNewMessage("");
+    
+        
+        await makeRequest.post("/notif", {senderId:currentUser?._id,recieverId:receiverId})
     } catch {
       console.log("error");
     }
@@ -70,7 +80,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
   // Receive Message from parent component
   useEffect(() => {
     console.log("Message Arrived: ", receivedMessage);
-    if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
+    if (receivedMessage !== null && receivedMessage.chatId === chat?._id) {
       setMessages([...messages, receivedMessage]);
     }
   }, [receivedMessage]);
@@ -112,7 +122,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
                 <div
                   ref={scroll}
                   className={
-                    message.senderId === currentUser ? "message own" : "message"
+                    message.senderId === currentUser?._id ? "message own" : "message"
                   }
                 >
                   <span>{message.text}</span>{" "}
